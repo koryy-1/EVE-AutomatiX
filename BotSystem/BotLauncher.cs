@@ -36,22 +36,16 @@ namespace EVE_AutomatiX
             if (!success) return;
 
 
-            // Ship ship = new Ship(client);
-            Ship ship = client.GetShip();
-            //todo: куда девать ship, в аргумет констр Bot либо еще кудато
+            Ship ship = new Ship(_config, _behavior, client);
 
 
             Bot bot = new Bot(_config, _behavior, _currentState);
+            bot._ship = ship;
+            bot._client = client;
             bot.StartThread();
 
             EmergencyMode emergencyMode = new EmergencyMode(_config, _behavior, _currentState);
             emergencyMode.StartThread();
-
-
-            // todo: move create monitors and controller in ship (delete threadCreater)
-            ThreadCreater threadCreater = new ThreadCreater(_config, _behavior, _currentState);
-            threadCreater.StartMonitors();
-            threadCreater.StartControls();
 
 
             while (_currentState != BotState.FallDown) Thread.Sleep(1000);

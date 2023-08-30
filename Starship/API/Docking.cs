@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,20 +8,27 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Starship.API
 {
-    public static class StationDocking
+    public class Docking
     {
-        static public void EnsureUndocked()
+        Client _client;
+
+        public Docking(Client client)
+        {
+            _client = client;
+        }
+
+        public void EnsureUndocked()
         {
             if (IsDocked()) Undock();
         }
 
-        public static bool IsDocked()
+        public bool IsDocked()
         {
             // parsing light ingame wnd for space and check present
             throw new NotImplementedException();
         }
 
-        public static void Undock()
+        public void Undock()
         {
             throw new NotImplementedException();
         }

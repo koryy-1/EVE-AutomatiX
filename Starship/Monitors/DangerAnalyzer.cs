@@ -6,9 +6,19 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Monitors
 {
-    public static class DangerAnalyzer
+    public class DangerAnalyzer : ThreadWrapper
     {
-        public static void IsDangerDetected()
+        public override bool ConditionToStartWorker()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void IsDangerDetected()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Work()
         {
             throw new NotImplementedException();
         }

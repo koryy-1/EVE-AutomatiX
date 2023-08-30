@@ -9,44 +9,50 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    public class HI
+    public class HI : InGameWnd
     {
-        static public HudInterface GetInfo(ClientParams clientProcess)
+        ClientParams _clientParams;
+
+        public HI(ClientParams clientParams)
+        {
+            _clientParams = clientParams;
+        }
+        public HudInterface GetInfo()
         {
             HudInterface HudInterface = new HudInterface();
 
             //Pos
-            HudInterface.Pos = GetCenterPos(clientProcess);
+            HudInterface.Pos = GetCenterPos();
 
 
             //HP
-            HudInterface.HealthPoints = GetShipHP(clientProcess);
+            HudInterface.HealthPoints = GetShipHP();
 
 
             //CurrentSpeed
-            HudInterface.CurrentSpeed = GetCurrentSpeed(clientProcess);
+            HudInterface.CurrentSpeed = GetCurrentSpeed();
 
 
             //Module
-            HudInterface.AllModules = GetAllModulesInfo(clientProcess);
+            HudInterface.AllModules = GetAllModulesInfo();
 
 
             return HudInterface;
         }
-        static public Point GetCenterPos(ClientParams clientProcess)
+        public Point GetCenterPos()
         {
-            var HudContainer = GetHudContainer(clientProcess);
+            var HudContainer = GetHudContainer(_clientParams);
             if (HudContainer == null)
             {
                 return null;
             }
 
-            var (XHudContainer, YHudContainer) = InGameWnd.GetCoordsEntityOnScreen(HudContainer
+            var (XHudContainer, YHudContainer) = GetCoordsEntityOnScreen(HudContainer
                     .children[Convert.ToInt32(HudContainer.dictEntriesOfInterest["needIndex"])]
                     );
 
             var CenterHudContainerEntity = HudContainer.children[0].children[0];
-            var (XCenterHudContainer, _) = InGameWnd.GetCoordsEntityOnScreen(CenterHudContainerEntity);
+            var (XCenterHudContainer, _) = GetCoordsEntityOnScreen(CenterHudContainerEntity);
 
             Point Pos = new Point();
 
@@ -55,9 +61,9 @@ namespace EVE_Bot.Parsers
 
             return Pos;
         }
-        static public HealthPoints GetShipHP(ClientParams clientProcess)
+        public HealthPoints GetShipHP()
         {
-            var HudContainer = GetHudContainer(clientProcess);
+            var HudContainer = GetHudContainer(_clientParams);
             if (HudContainer == null)
             {
                 return null;
@@ -92,9 +98,9 @@ namespace EVE_Bot.Parsers
 
             return HealthPoints;
         }
-        static public int GetCurrentSpeed(ClientParams clientProcess)
+        public int GetCurrentSpeed()
         {
-            var HudContainer = GetHudContainer(clientProcess);
+            var HudContainer = GetHudContainer(_clientParams);
             if (HudContainer == null)
             {
                 return -1;
@@ -111,9 +117,9 @@ namespace EVE_Bot.Parsers
             }
             return -1;
         }
-        static public List<Module> GetAllModulesInfo(ClientParams clientProcess)
+        public List<Module> GetAllModulesInfo()
         {
-            UITreeNode HudContainer = GetHudContainer(clientProcess);
+            UITreeNode HudContainer = GetHudContainer(_clientParams);
             if (HudContainer == null)
             {
                 return null;
@@ -137,7 +143,7 @@ namespace EVE_Bot.Parsers
                     Module.Name = ModulesData.ModuleNamesDict[RawModuleName];
 
                 //Virtual key
-                var (X, Y) = InGameWnd.GetCoordsEntityOnScreen(SlotsContainer.children[i]);
+                var (X, Y) = GetCoordsEntityOnScreen(SlotsContainer.children[i]);
                 if (Y == 0)
                     Module.VirtualKey = X / 51 + 0x70;
 
@@ -222,9 +228,9 @@ namespace EVE_Bot.Parsers
 
             return AllModules;
         }
-        static public ShipState GetShipState(ClientParams clientProcess)
+        public ShipFlightMode GetShipFlightMode()
         {
-            UITreeNode HudContainer = GetHudContainer(clientProcess);
+            UITreeNode HudContainer = GetHudContainer(_clientParams);
 
             if (HudContainer == null)
             {
@@ -254,19 +260,25 @@ namespace EVE_Bot.Parsers
             if (!indicationContainer.children[1].dictEntriesOfInterest.ContainsKey("_setText"))
                 return null;
 
-            ShipState ShipState = new ShipState();
+            ShipFlightMode ShipState = new ShipFlightMode();
 
-            var CurrentItem = indicationContainer.children[0].dictEntriesOfInterest["_setText"].ToString();
-            var CurrentState = indicationContainer.children[1].dictEntriesOfInterest["_setText"].ToString();
+            var CurrentItemAndDistance = indicationContainer.children[0].dictEntriesOfInterest["_setText"].ToString();
+            var CurrentFlightMode = indicationContainer.children[1].dictEntriesOfInterest["_setText"].ToString();
 
-            ShipState.CurrentItemAndDistance = CurrentItem;
-            ShipState.CurrentState = CurrentState;
+            ShipState.CurrentItemAndDistance = CurrentItemAndDistance;
+            ShipState.CurrentFlightMode = GetFlightMode(CurrentFlightMode);
 
             return ShipState;
         }
-        private static UITreeNode GetHudContainer(ClientParams clientProcess)
+
+        private FlightMode GetFlightMode(string RawFlightMode)
         {
-            var HudContainer = UITreeReader.GetUITrees(clientProcess, "ShipUI", 3);
+
+        }
+
+        private UITreeNode GetHudContainer(ClientParams clientParams)
+        {
+            var HudContainer = UITreeReader.GetUITrees(clientParams, "ShipUI", 3);
 
             return HudContainer;
         }

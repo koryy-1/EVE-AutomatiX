@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.UIHandlers
 {
-    static public class InGameWnd
+    public class InGameWnd
     {
         // todo: полностью перелопатить тут все
-        static public (int, int) GetCoordWindow(ClientParams ClientProcess, string WindowName)
+        public (int, int) GetCoordWindow(ClientParams ClientProcess, string WindowName)
         {
             var uiTreeWithPathToWindow = ReadMemory.GetUITrees(ClientProcess.RootAddress, ClientProcess.ProcessId).FindEntityOfString(WindowName);
             if (uiTreeWithPathToWindow == null)
@@ -53,7 +53,7 @@ namespace EVE_AutomatiX.UIHandlers
             return (XlocWindow, YlocWindow);
         }
 
-        static public int GetHeightWindow(ClientParams ClientProcess, string WindowName)
+        public int GetHeightWindow(ClientParams ClientProcess, string WindowName)
         {
             var uiTreeWithPathToWindow = ReadMemory.GetUITrees(ClientProcess.RootAddress, ClientProcess.ProcessId).FindEntityOfString(WindowName);
             var WindowEntry = uiTreeWithPathToWindow.handleEntity(WindowName);
@@ -74,7 +74,7 @@ namespace EVE_AutomatiX.UIHandlers
             return WindowHeight;
         }
 
-        static public int GetWidthWindow(ClientParams ClientProcess, string WindowName)
+        public int GetWidthWindow(ClientParams ClientProcess, string WindowName)
         {
             var TreeViewEntryInventory = ReadMemory.GetUITrees(ClientProcess.RootAddress, ClientProcess.ProcessId).FindEntityOfString(WindowName).handleEntity(WindowName);
 
@@ -94,7 +94,7 @@ namespace EVE_AutomatiX.UIHandlers
             return WindowWidth;
         }
 
-        static public(int, int) GetCoordsEntityOnScreen(UITreeNode Entity)
+        public(int, int) GetCoordsEntityOnScreen(UITreeNode Entity)
         {
             int XEntity = 0;
             int YEntity = 0;

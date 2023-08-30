@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Monitors
 {
-    public static class DisconnectMonitor
+    public class DisconnectMonitor : ThreadWrapper
     {
-        public static void CheckConnLost()
+        public void CheckConnLost()
         {
             throw new NotImplementedException();
             while (true)
@@ -18,6 +18,16 @@ namespace EVE_AutomatiX.Monitors
 
                 Thread.Sleep(60 * 1000);
             }
+        }
+
+        public override bool ConditionToStartWorker()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Work()
+        {
+            throw new NotImplementedException();
         }
     }
 }

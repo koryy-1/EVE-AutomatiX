@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Strategics
@@ -22,6 +23,12 @@ namespace EVE_AutomatiX.Strategics
 
         public override void Work()
         {
+            //while (IsCurSysDanger())
+            //{
+            //    ActivateEM();
+
+            //    Thread.Sleep(300);
+            //}
             throw new NotImplementedException();
         }
 

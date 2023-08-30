@@ -8,11 +8,17 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    static public class TB
+    public class TB : InGameWnd
     {
-        static public List<TargetInBar> GetInfo(ClientParams clientProcess)
+        ClientParams _clientParams;
+
+        public TB(ClientParams clientParams)
         {
-            var TargetInBarEntry = UITreeReader.GetUITrees(clientProcess, "TargetInBar", 6, true);
+            _clientParams = clientParams;
+        }
+        public List<TargetInBar> GetInfo()
+        {
+            var TargetInBarEntry = UITreeReader.GetUITrees(_clientParams, "TargetInBar", 6, true);
             if (TargetInBarEntry == null)
                 return null;
 
@@ -22,7 +28,7 @@ namespace EVE_Bot.Parsers
             {
                 TargetInBar Target = new TargetInBar();
 
-                var (XTarget, YTarget) = InGameWnd.GetCoordsEntityOnScreen(TargetInBarEntry.children[i]);
+                var (XTarget, YTarget) = GetCoordsEntityOnScreen(TargetInBarEntry.children[i]);
 
                 Target.Pos.x = XTarget + 55;
                 Target.Pos.y = YTarget + 55;

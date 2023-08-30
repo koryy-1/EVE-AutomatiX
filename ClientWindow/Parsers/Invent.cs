@@ -8,11 +8,17 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    static public class Invent
+    public class Invent : InGameWnd
     {
-        static public List<InventoryItem> GetInfo(ClientParams clientProcess)
+        ClientParams _clientParams;
+
+        public Invent(ClientParams clientParams)
         {
-            var CargoTree1 = UITreeReader.GetUITrees(clientProcess, "InventoryPrimary");
+            _clientParams = clientParams;
+        }
+        public List<InventoryItem> GetInfo()
+        {
+            var CargoTree1 = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
             if (CargoTree1 == null)
             {
                 return null;
@@ -25,11 +31,11 @@ namespace EVE_Bot.Parsers
             }
             CargoTree = CargoTree.handleEntity("Row");
 
-            var (XInventory, YInventory) = InGameWnd.GetCoordWindow(clientProcess, "InventoryPrimary");
+            var (XInventory, YInventory) = GetCoordWindow(_clientParams, "InventoryPrimary");
 
             List<InventoryItem> InventoryItems = new List<InventoryItem>();
 
-            var LeftSidebarWidth = InGameWnd.GetWidthWindow(clientProcess, "TreeViewEntryInventoryCargo");
+            var LeftSidebarWidth = GetWidthWindow(_clientParams, "TreeViewEntryInventoryCargo");
 
             //Rows
             for (int i = 0; i < CargoTree.children.Length; i++)
@@ -126,9 +132,9 @@ namespace EVE_Bot.Parsers
         }
 
 
-        static public int GetVolumeInfo(ClientParams clientProcess)
+        public int GetVolumeInfo()
         {
-            var InventoryPrimary = UITreeReader.GetUITrees(clientProcess, "InventoryPrimary");
+            var InventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
             if (InventoryPrimary == null)
             {
                 Console.WriteLine("InventoryPrimary not found");
@@ -172,9 +178,9 @@ namespace EVE_Bot.Parsers
             return -1;
         }
 
-        static public int GetPriceInfo(ClientParams clientProcess)
+        public int GetPriceInfo()
         {
-            var InventoryPrimary = UITreeReader.GetUITrees(clientProcess, "InventoryPrimary");
+            var InventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
             if (InventoryPrimary == null)
             {
                 Console.WriteLine("InventoryPrimary not found");

@@ -5,17 +5,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EVE_Bot.Parsers
 {
-    static public class NP
+    public class NP : InGameWnd
     {
-        static public List<NotepadItem> GetInfo(ClientParams clientProcess)
-        {
-            var (XlocOverview, YlocOverview) = InGameWnd.GetCoordWindow(clientProcess, "NotepadWindow");
+        ClientParams _clientParams;
 
-            var NotepadWindow = UITreeReader.GetUITrees(clientProcess, "NotepadWindow");
+        public NP(ClientParams clientParams)
+        {
+            _clientParams = clientParams;
+        }
+        public List<NotepadItem> GetInfo()
+        {
+            var (XlocOverview, YlocOverview) = GetCoordWindow(_clientParams, "NotepadWindow");
+
+            var NotepadWindow = UITreeReader.GetUITrees(_clientParams, "NotepadWindow");
             if (NotepadWindow == null)
                 return null;
 
@@ -25,7 +30,7 @@ namespace EVE_Bot.Parsers
 
             var SE_EditTextlineCoreEntry = SE_EditTextlineCore.handleEntity("SE_EditTextlineCore");
 
-            int LeftSidebarWidth = InGameWnd.GetWidthWindow(clientProcess, "ListGroup");
+            int LeftSidebarWidth = GetWidthWindow(_clientParams, "ListGroup");
 
             List<NotepadItem> NotepadInfo = new List<NotepadItem>();
 

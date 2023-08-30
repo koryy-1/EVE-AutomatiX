@@ -1,4 +1,5 @@
-﻿using EVE_AutomatiX.Models;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Models;
 using EVE_AutomatiX.Starship.API;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace EVE_AutomatiX.Strategics
         Config _config { get; set; }
         BotBehavior _behavior { get; set; }
         BotState _currentState { get; set; }
+        public Ship _ship { get; set; }
+        public Client _client { get; set; }
         public FarmNPC(Config config, BotBehavior behavior, BotState currentState)
         {
             _config = config;
@@ -22,23 +25,21 @@ namespace EVE_AutomatiX.Strategics
         public void Start()
         {
             DateTime farmStartTime = DateTime.Now;
-            var allShipSystemsAreOK = CommonFuncs.RunDiagnostics();
-            if (!allShipSystemsAreOK)
-            {
-                return;
-            }
+
+            var allShipSystemsAreOK = _ship.Diagnostics.Run();
+            if (!allShipSystemsAreOK) return;
 
             while (_currentState != BotState.FallDown)
             {
                 if (_config.FarmExp) GotoFarmExp();
 
-                Routing.EnsureRouteBuilt();
+                _ship.Routing.EnsureRouteBuilt();
 
                 GotoFarmAnomaly();
 
-                CommonFuncs.Pause();
+                Pause();
 
-                Routing.GotoNextSystem();
+                _ship.Routing.GotoNextSystem();
             }
             //logger("bot fall down");
         }
@@ -47,16 +48,16 @@ namespace EVE_AutomatiX.Strategics
         {
             while (IsAnomalyInCurrentSystem())
             {
-                GotoAnomaly();
+                WarpToAnomaly();
                 FarmAnomaly();
-                Looting.GotoLoot();
+                _ship.Looting.GotoLoot();
             }
         }
 
         private bool IsAnomalyInCurrentSystem()
         {
-            // todo: названия брать из конфига + точные названия
-            if (Finder.FindAnomalies(new List<int> { 0, 2 }).Count() > 0) // List<Anomaly> from config
+            // todo: List<Anomaly> from config
+            if (_client.Parser.PS.FindAnomalies(new List<string> { "Guristas", "Serpentis" }).Count() > 0)
             {
                 return true;
             }
@@ -73,12 +74,19 @@ namespace EVE_AutomatiX.Strategics
             throw new NotImplementedException();
         }
 
-        private void GotoAnomaly()
+        private void WarpToAnomaly()
         {
-            var Anomalies = Finder.FindAnomalies(new List<int> { 0, 2 }); // List<Anomaly> from config
+            // List<Anomaly> from config
+            var Anomalies = _client.Parser.PS.FindAnomalies(new List<string> { "Guristas", "Serpentis" });
             // Mouse.Click(Anomalies[0].CoordsOfWarpBtn)
             // Check ship is warp
             throw new NotImplementedException();
         }
+
+        private void Pause()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

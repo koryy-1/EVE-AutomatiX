@@ -1,4 +1,5 @@
-﻿using EVE_AutomatiX.Starship.API;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Starship.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,11 @@ namespace EVE_AutomatiX
 {
     class Autopilot
     {
+        public Ship _ship { get; set; }
+        public Client _client { get; set; }
         public void Start()
         {
-            StationDocking.EnsureUndocked();
+            Docking.EnsureUndocked();
             while (Routing.IsRouteLaid())
             {
                 Routing.GotoNextSystem();

@@ -36,13 +36,13 @@ namespace EVE_AutomatiX
             _currentState = currentState;
 
             //DangerAnalyzerThread DangerAnalyzerThread = new DangerAnalyzerThread(args...);
-            DangerAnalyzerThread = new Thread(DangerAnalyzer.IsDangerDetected);
-            disconnectMonitorThread = new Thread(DisconnectMonitor.CheckConnLost);
-            shipHPMonitorThread = new Thread(ShipHPMonitor.CheckShipHP);
+            //DangerAnalyzerThread = new Thread(DangerAnalyzer.IsDangerDetected);
+            //disconnectMonitorThread = new Thread(DisconnectMonitor.CheckConnLost);
+            //shipHPMonitorThread = new Thread(ShipHPMonitor.CheckShipHP);
 
-            navigationControlThread = new Thread(NavigationController.NavigationControl);
-            droneControlThread = new Thread(DroneController.DroneControl);
-            missileControlThread = new Thread(MissileController.MissileControl);
+            //navigationControlThread = new Thread(NavigationController.NavigationControl);
+            //droneControlThread = new Thread(DroneController.DroneControl);
+            //missileControlThread = new Thread(MissileController.MissileControl);
         }
 
         // следить за тем чтобы каждый поток был запущен

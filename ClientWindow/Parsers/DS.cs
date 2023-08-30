@@ -6,11 +6,17 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    static public class DS
+    public class DS
     {
-        static public List<DScanItem> GetInfo(ClientParams clientProcess)
+        ClientParams _clientParams;
+
+        public DS(ClientParams clientParams)
         {
-            var DScanWnd = UITreeReader.GetUITrees(clientProcess, "DirectionalScanner");
+            _clientParams = clientParams;
+        }
+        public List<DScanItem> GetInfo()
+        {
+            var DScanWnd = UITreeReader.GetUITrees(_clientParams, "DirectionalScanner");
             if (DScanWnd == null) // docked
                 return null;
 
@@ -18,7 +24,7 @@ namespace EVE_Bot.Parsers
             if (DScanWnd != null) // no Results
                 return null;
 
-            DScanWnd = UITreeReader.GetUITrees(clientProcess).FindEntityOfString("DirectionalScanResultEntry");
+            DScanWnd = UITreeReader.GetUITrees(_clientParams).FindEntityOfString("DirectionalScanResultEntry");
             if (DScanWnd == null) // xyeta
             {
                 Console.WriteLine("dscan not work");

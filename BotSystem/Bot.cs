@@ -1,4 +1,5 @@
-﻿using EVE_AutomatiX.Models;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace EVE_AutomatiX.Strategics
         Config _config { get; set; }
         BotBehavior _behavior { get; set; }
         BotState _currentState { get; set; }
+        public Ship _ship { get; set; }
+        public Client _client { get; set; }
 
         public Bot(Config config, BotBehavior behavior, BotState currentState)
         {
@@ -26,10 +29,14 @@ namespace EVE_AutomatiX.Strategics
             {
                 case 0:
                     Autopilot autopilot = new Autopilot();
+                    autopilot._ship = _ship;
+                    autopilot._client = _client;
                     autopilot.Start();
                     break;
                 case 1:
                     FarmNPC farmNPC = new FarmNPC(_config, _behavior, _currentState);
+                    farmNPC._ship = _ship;
+                    farmNPC._client = _client;
                     farmNPC.Start();
                     break;
                 default:

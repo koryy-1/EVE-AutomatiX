@@ -1,12 +1,13 @@
-﻿using System;
+﻿using EVE_AutomatiX.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EVE_Bot.Models
 {
-    public class AtciveItemButton
+    public class ActiveItemButton
     {
-        public string BtnName { get; set; }
+        public SpaceObjectAction ObjectAction { get; set; }
         public Point Pos { get; set; }
     }
 }

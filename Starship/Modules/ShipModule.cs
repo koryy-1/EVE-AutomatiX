@@ -1,4 +1,5 @@
-﻿using EVE_AutomatiX.Models;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Models;
 using EVE_Bot.Parsers;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace EVE_AutomatiX.Starship.Modules
 {
     public class ShipModule : Module
     {
-        public ClientParams _clientProcess;
+        public Client _client;
 
         public string GetMode()
         {
-            return HI.GetAllModulesInfo(_clientProcess).Find(module => module.Name == Name).Mode;
+            return _client.Parser.HI.GetAllModulesInfo().Find(module => module.Name == Name).Mode;
         }
 
         public void Enable()

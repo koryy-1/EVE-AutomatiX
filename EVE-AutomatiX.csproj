@@ -81,20 +81,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BotSystem\ClientLauncher.cs" />
     <Compile Include="ClientWindow\Client.cs" />
     <Compile Include="ClientWindow\Parser.cs" />
     <Compile Include="Models\BotMode.cs" />
+    <Compile Include="Starship\API\CombatSystems.cs" />
+    <Compile Include="Starship\API\Diagnostics.cs" />
     <Compile Include="Starship\Controllers\DroneController.cs" />
     <Compile Include="Starship\Controllers\MissileController.cs" />
     <Compile Include="Starship\Controllers\NavigationController.cs" />
+    <Compile Include="Starship\Controllers\TargetController.cs" />
     <Compile Include="Starship\Modules\Amplifiers.cs" />
     <Compile Include="Starship\Modules\Defense.cs" />
     <Compile Include="Starship\Modules\PropModule.cs" />
     <Compile Include="Starship\Modules\ShipModule.cs" />
     <Compile Include="Starship\Modules\Weapon.cs" />
+    <Compile Include="Starship\Monitors\TargetMonitor.cs" />
     <Compile Include="Starship\Ship.cs" />
     <Compile Include="BotSystem\Strategics\oldFunc\Autopilot.cs" />
-    <Compile Include="Starship\API\CommonFuncs.cs" />
     <Compile Include="Starship\API\Finder.cs" />
     <Compile Include="BotSystem\Strategics\oldFunc\Finders1.cs" />
     <Compile Include="BotSystem\Strategics\oldFunc\General.cs" />
@@ -137,7 +141,7 @@
     <Compile Include="ClientWindow\Parsers\SI.cs" />
     <Compile Include="ClientWindow\Parsers\TB.cs" />
     <Compile Include="ClientWindow\Parsers\UITreeReader.cs" />
-    <Compile Include="Starship\API\StationDocking.cs" />
+    <Compile Include="Starship\API\Docking.cs" />
     <Compile Include="BotSystem\Strategics\Autopilot.cs" />
     <Compile Include="BotSystem\BotLauncher.cs" />
     <Compile Include="Enter nickname.cs">

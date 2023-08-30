@@ -1,12 +1,19 @@
-﻿using EVE_AutomatiX.Models;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Controllers;
+using EVE_AutomatiX.Models;
 using EVE_AutomatiX.Starship.API;
+using EVE_AutomatiX.Starship.Controllers;
 using EVE_AutomatiX.Starship.Modules;
+using EVE_AutomatiX.Starship.Monitors;
 using EVE_Bot.Models;
 using EVE_Bot.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EVE_AutomatiX
@@ -16,120 +23,83 @@ namespace EVE_AutomatiX
         public State state;
         public Location location;
         public Mode mode;
+        public FlightMode flightMode;
 
         public PropModule propModule;
         public Weapon weapon;
         public Defense defense;
         public Amplifiers amplifiers;
 
+        // monitors
+        //DangerAnalyzerThread DangerAnalyzerThread = new DangerAnalyzerThread(args...);
+        Thread DangerAnalyzerThread;
+        Thread disconnectMonitorThread;
+        Thread shipHPMonitorThread;
+        private TargetMonitor targetMonitor;
 
-        public Ship(Config config, BotBehavior behavior)
+        // controllers
+        Thread droneControlThread;
+        private TargetController targetController;
+        private MissileController missileController;
+        private NavigationController navigationController;
+
+        // systems
+        public CombatSystems CombatSystems;
+        public Diagnostics Diagnostics;
+        public Docking Docking;
+        public Looting Looting;
+        public Navigating Navigating;
+        public Routing Routing;
+
+        private Client _client;
+
+        public Ship(Config config, BotBehavior behavior, Client client)
         {
-            clientProcess = config.ClientParams;
+            _client = client;
 
-            state = State.NotAvailable;
 
-            if (StationDocking.IsDocked())
+            propModule = new PropModule(_client);
+            weapon = new Weapon(_client, config.WeaponsRange, config.Charges);
+            // todo: defense may be list
+            defense = new Defense(_client);
+            // todo: too
+            amplifiers = new Amplifiers(_client);
+
+
+            CombatSystems = new CombatSystems(client, behavior, defense, amplifiers);
+            Diagnostics = new Diagnostics(client);
+            Docking = new Docking(client);
+            Looting = new Looting(client);
+            Navigating = new Navigating(client);
+            Routing = new Routing(client);
+
+            if (Docking.IsDocked())
                 location = Location.Dock;
-            if (HI.GetShipState(clientProcess).CurrentState.Contains("Warp"))
-                location = Location.Warp;
             else
                 location = Location.Space;
 
-            mode = Mode.Lead;
 
+            //DangerAnalyzerThread.StartThread();
+            // todo: delete DangerAnalyzerThread, disconnectMonitor - new instance?
+            DangerAnalyzerThread.Start();
 
-            propModule = new PropModule(clientProcess);
-            weapon = new Weapon(clientProcess);
-            // todo: defense may be list
-            defense = new Defense(clientProcess);
-            // todo: too
-            amplifiers = new Amplifiers(clientProcess);
+            // monitors
+            targetMonitor = new TargetMonitor(client, behavior);
+            targetMonitor.StartThread();
+
+            // controllers
+            targetController = new TargetController(client, behavior);
+            targetController.StartThread();
+
+            missileController = new MissileController(client, behavior, weapon);
+            missileController.StartThread();
+
+            navigationController = new NavigationController(client, behavior, propModule);
 
             // StartThread Controllers and Monitors
-        }
-        void SetSpeed()
-        {
-            throw new NotImplementedException();
-        }
-
-        HealthPoints GetHealthPoints()
-        {
-            return HI.GetShipHP(clientProcess);
-        }
-
-        // anomalies
-        List<ProbeScanItem> GetAnomalyList()
-        {
-            return PS.GetInfo(clientProcess);
-        }
-
-        void WarpToAnomaly()
-        {
-            throw new NotImplementedException();
-        }
-
-        // targets on overview
-        List<OverviewItem> GetOverviewList()
-        {
-            return OV.GetInfo(clientProcess);
-        }
-
-        void DESTRXY_EVERYXNE()
-        {
-            while (Finder.AreHostileObjectsInOverview())
-            {
-                // lock next target
-                // destroy target
-            }
-        }
-
-        void LockEnemies()
-        {
-            throw new NotImplementedException();
-        }
-
-        void LockTargets(List<OverviewItem> overviewItems)
-        {
-            throw new NotImplementedException();
-        }
-
-        void OpenFire()
-        {
-            throw new NotImplementedException();
-        }
-
-        // movement
-        void OrbitObject(OverviewItem Object)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ApproachObject(OverviewItem Object)
-        {
-            throw new NotImplementedException();
-        }
-
-        // looting
-        void GotoLoot()
-        {
-            throw new NotImplementedException();
-        }
-
-        void GotoLoot(string contName)
-        {
-            throw new NotImplementedException();
-        }
-
-        //cargo
-        void EnsureCargoUnloaded()
-        {
-            throw new NotImplementedException();
-        }
-
-        int GetCargoPrice()
-        {
-            throw new NotImplementedException();
+            //ThreadCreater threadCreater = new ThreadCreater(_config, _behavior, _currentState);
+            //threadCreater.StartMonitors();
+            //threadCreater.StartControls();
         }
     }
 
@@ -144,13 +114,12 @@ namespace EVE_AutomatiX
         NotAvailable,
         Fighting,
         Looting,
-        Traveling
+        Searching
     }
 
     public enum Location
     {
         Dock,
         Space,
-        Warp
     }
 }

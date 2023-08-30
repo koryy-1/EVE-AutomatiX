@@ -159,9 +159,9 @@ namespace EVE_AutomatiX
         {
             Config config = ConfigReader.GetConfigByNickName(nickNameLabel1.Text);
 
-            BotLauncher Bot = new BotLauncher(nickNameLabel1.Text, config);
+            BotLauncher BotLauncher = new BotLauncher(nickNameLabel1.Text, config);
 
-            Thread thread = new Thread(Bot.Start);
+            Thread thread = new Thread(BotLauncher.Start);
             thread.Name = nickNameLabel1.Text;
             thread.Start();
             _threads.Add(thread);

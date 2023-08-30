@@ -1,4 +1,5 @@
-﻿using EVE_AutomatiX.Models;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Models;
 using EVE_AutomatiX.Utils;
 using EVE_Bot.Parsers;
 using System;
@@ -11,10 +12,14 @@ namespace EVE_AutomatiX.Starship.Modules
 {
     public class Weapon : ShipModule
     {
-        public Weapon(ClientParams clientProcess)
+        int _weaponsRange;
+        string _charges;
+        public Weapon(Client client, int weaponsRange, string charges)
         {
-            _clientProcess = clientProcess;
-            HI.GetAllModulesInfo(clientProcess)
+            _client = client;
+            _weaponsRange = weaponsRange;
+            _charges = charges;
+            _client.Parser.HI.GetAllModulesInfo()
                 .ForEach(module => {
                     if (module.Name == ModuleName.MissileLauncher)
                         Name = module.Name;

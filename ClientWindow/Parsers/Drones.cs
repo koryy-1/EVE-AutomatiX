@@ -4,17 +4,22 @@ using EVE_Bot.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EVE_Bot.Parsers
 {
-    static public class Drones : InGameWnd
+    public class Drones : InGameWnd
     {
-        static public List<DroneInfo> GetInfo(ClientParams clientProcess)
-        {
-            var (XDroneView, YDroneView) = GetCoordWindow(clientProcess, "DroneView");
+        ClientParams _clientParams;
 
-            var deepDrones = UITreeReader.GetUITrees(clientProcess, "DroneView");
+        public Drones(ClientParams clientParams)
+        {
+            _clientParams = clientParams;
+        }
+        public List<DroneInfo> GetInfo()
+        {
+            var (XDroneView, YDroneView) = GetCoordWindow(_clientParams, "DroneView");
+
+            var deepDrones = UITreeReader.GetUITrees(_clientParams, "DroneView");
             if (deepDrones == null)
                 return null;
 

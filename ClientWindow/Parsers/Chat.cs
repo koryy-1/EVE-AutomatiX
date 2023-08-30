@@ -6,11 +6,17 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    static public class Chat
+    public class Chat
     {
-        static public List<ChatPlayer> GetInfo(ClientParams clientProcess)
+        ClientParams _clientParams;
+
+        public Chat(ClientParams clientParams)
         {
-            var Persons = UITreeReader.GetUITrees(clientProcess, "ChatWindowStack");
+            _clientParams = clientParams;
+        }
+        public List<ChatPlayer> GetInfo()
+        {
+            var Persons = UITreeReader.GetUITrees(_clientParams, "ChatWindowStack");
             if (Persons == null)
                 return null;
 

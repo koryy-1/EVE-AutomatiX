@@ -8,6 +8,6 @@ namespace EVE_Bot.Models
     {
         public string Name { get; set; }
         public Distance Distance { get; set; }
-        public AtciveItemButton[] Buttons { get; set; }
+        public ActiveItemButton[] Buttons { get; set; }
     }
 }

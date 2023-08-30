@@ -4,9 +4,9 @@ using System.Text;
 
 namespace EVE_Bot.Models
 {
-    public class ShipState
+    public class ShipFlightMode
     {
-        public string CurrentState { get; set; }
+        public string CurrentFlightMode { get; set; }
         public string CurrentItemAndDistance { get; set; }
     }
 }

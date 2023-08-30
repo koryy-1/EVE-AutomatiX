@@ -8,6 +8,7 @@ namespace EVE_AutomatiX.Models
 {
     public class BotBehavior
     {
+        volatile public bool BotEnable = false;
         public volatile bool DangerAnalyzerEnable = true;
         public volatile bool AllowCheckConLost = true;
         public volatile bool AllowDScan = false;
@@ -32,26 +33,26 @@ namespace EVE_AutomatiX.Models
 
     public class CombatFlags
     {
-        volatile public bool BotEnable = false;
-        volatile static public bool AllowToAttack = false;
-        volatile static public bool EnemiesInGrid = false;
-        volatile static public bool AllowCombat = false;
+        volatile public bool BattleModeEnabled = false;
+        volatile public bool AllowToOpenFire = false;
+        volatile public bool EnemiesInGrid = false;
+        volatile public bool TargetControllerEnabled = false;
     }
 
     public class ShipHPFlags
     {
-        volatile static public bool AllowShieldHPControl = false;
-        volatile static public bool ShipShieldIsLow = false;
+        volatile public bool AllowShieldHPControl = false;
+        volatile public bool IsLowShield = false;
     }
 
     public class ShipControlFlags
     {
-        volatile static public bool AllowShipControl = true;
-        volatile static public bool AllowDocking = true;
-        volatile static public bool AllowNavigationControl = false;
-        volatile static public bool CloseDistanceToEnemy = false;
-        volatile static public string ItemInSpace = "";
-        volatile static public string FlightManeuver = "";
-        volatile static public string ExpectedState = "";
+        volatile public bool AllowShipControl = true;
+        volatile public bool AllowDocking = true;
+        volatile public bool AllowNavigationControl = false;
+        volatile public bool CloseDistanceToEnemy = false;
+        volatile public string ItemInSpace = "";
+        volatile public string FlightManeuver = "";
+        volatile public string ExpectedState = "";
     }
 }

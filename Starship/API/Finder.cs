@@ -9,8 +9,6 @@ namespace EVE_AutomatiX.Starship.API
 {
     public static class Finder
     {
-        
-
         public static List<OverviewItem> GetEnemies()
         {
             throw new NotImplementedException();

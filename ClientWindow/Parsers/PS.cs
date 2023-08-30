@@ -6,16 +6,22 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    public static class PS
+    public class PS
     {
-        public static List<ProbeScanItem> GetInfo(ClientParams clientProcess)
+        ClientParams _clientParams;
+
+        public PS(ClientParams clientParams)
+        {
+            _clientParams = clientParams;
+        }
+        public List<ProbeScanItem> GetInfo()
         {
             throw new NotImplementedException();
         }
 
-        public static List<ProbeScanItem> FindAnomalies(List<string> AnomalyNames) // todo: Parsers second method with param
+        public List<ProbeScanItem> FindAnomalies(List<string> AnomalyNames) // todo: Parsers second method with param
         {
-            return GetInfo(ClientProcess clientProcess).FindAll(
+            return GetInfo().FindAll(
                 (anomaly) =>
                 {
                     foreach (var anomalyName in AnomalyNames)

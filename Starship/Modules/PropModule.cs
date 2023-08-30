@@ -1,4 +1,5 @@
-﻿using EVE_AutomatiX.Models;
+﻿using EVE_AutomatiX.ClientWindow;
+using EVE_AutomatiX.Models;
 using EVE_AutomatiX.Utils;
 using EVE_Bot.Parsers;
 using System;
@@ -11,10 +12,10 @@ namespace EVE_AutomatiX.Starship.Modules
 {
     public class PropModule : ShipModule
     {
-        public PropModule(ClientParams clientProcess)
+        public PropModule(Client client)
         {
-            _clientProcess = clientProcess;
-            HI.GetAllModulesInfo(clientProcess)
+            _client = client;
+            _client.Parser.HI.GetAllModulesInfo()
                 .ForEach(module => {
                     if (module.Name == ModuleName.AB || module.Name == ModuleName.MWD)
                         Name = module.Name;

@@ -7,16 +7,22 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    static public class NavPanel
+    public class NavPanel : InGameWnd
     {
-        static public RoutePanel GetRoutePanelInfo(ClientParams clientProcess)
+        ClientParams _clientParams;
+
+        public NavPanel(ClientParams clientParams)
+        {
+            _clientParams = clientParams;
+        }
+        public RoutePanel GetRoutePanelInfo()
         {
             RoutePanel RoutePanel = new RoutePanel();
-            var InfoPanelRoute = UITreeReader.GetUITrees(clientProcess, "InfoPanelRoute", 7);
+            var InfoPanelRoute = UITreeReader.GetUITrees(_clientParams, "InfoPanelRoute", 7);
             if (InfoPanelRoute == null)
                 return null;
 
-            RoutePanel.ButtonLoc = GetButtonLoc(clientProcess, InfoPanelRoute);
+            RoutePanel.ButtonLoc = GetButtonLoc(InfoPanelRoute);
 
             var AutopilotDestinationIcon = InfoPanelRoute.FindEntityOfString("AutopilotDestinationIcon");
             if (AutopilotDestinationIcon == null)
@@ -37,10 +43,10 @@ namespace EVE_Bot.Parsers
             }
             return RoutePanel;
         }
-        static public LocationInfo GetLocationInfo(ClientParams clientProcess)
+        public LocationInfo GetLocationInfo()
         {
             LocationInfo LocationInfo = new LocationInfo();
-            var InfoPanelLocationInfo = UITreeReader.GetUITrees(clientProcess, "InfoPanelLocationInfo", 7);
+            var InfoPanelLocationInfo = UITreeReader.GetUITrees(_clientParams, "InfoPanelLocationInfo", 7);
             if (InfoPanelLocationInfo == null)
                 return null;
 
@@ -57,11 +63,11 @@ namespace EVE_Bot.Parsers
 
             return LocationInfo;
         }
-        static public Point GetButtonLoc(ClientParams clientProcess, UITreeNode InfoPanel)
+        public Point GetButtonLoc(UITreeNode InfoPanel)
         {
             Point ButtonLoc = new Point();
 
-            var NeocomContainer = UITreeReader.GetUITrees(clientProcess, "NeocomContainer", 4);
+            var NeocomContainer = UITreeReader.GetUITrees(_clientParams, "NeocomContainer", 4);
             int LeftSidebar = 0;
 
             if (NeocomContainer.dictEntriesOfInterest["_displayWidth"] is Newtonsoft.Json.Linq.JObject)
@@ -69,7 +75,7 @@ namespace EVE_Bot.Parsers
             else
                 LeftSidebar = Convert.ToInt32(NeocomContainer.dictEntriesOfInterest["_displayWidth"]);
 
-            var (_, YInfoPanelRoute) = InGameWnd.GetCoordsEntityOnScreen(InfoPanel);
+            var (_, YInfoPanelRoute) = GetCoordsEntityOnScreen(InfoPanel);
 
             ButtonLoc.x = LeftSidebar + 42;
             ButtonLoc.y = YInfoPanelRoute + 86;

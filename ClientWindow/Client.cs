@@ -9,7 +9,7 @@ namespace EVE_AutomatiX.ClientWindow
 {
     public class Client
     {
-        public Parser _parser;
+        public Parser Parser;
         private string _nickName;
         private Config _config;
 
@@ -17,17 +17,12 @@ namespace EVE_AutomatiX.ClientWindow
         {
             _config = config;
             _nickName = nickName;
-            _parser = new Parser();
+            Parser = new Parser(config.ClientParams);
         }
 
         public bool UpdateRootAddress()
         {
             return UIRootAddress.UpdateRootAddress(ref _config, _nickName);
-        }
-
-        internal Ship GetShip()
-        {
-            throw new NotImplementedException();
         }
     }
 }

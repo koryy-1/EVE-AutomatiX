@@ -8,13 +8,19 @@ using System.Text;
 
 namespace EVE_Bot.Parsers
 {
-    static public class OV
+    public class OV : InGameWnd
     {
-        static public List<OverviewItem> GetInfo(ClientParams clientProcess)
-        {
-            var (XlocOverview, YlocOverview) = InGameWnd.GetCoordWindow(clientProcess, "OverView");
+        ClientParams _clientParams;
 
-            var Overview = UITreeReader.GetUITrees(clientProcess, "OverView");
+        public OV(ClientParams clientParams)
+        {
+            _clientParams = clientParams;
+        }
+        public List<OverviewItem> GetInfo()
+        {
+            var (XlocOverview, YlocOverview) = GetCoordWindow(_clientParams, "OverView");
+
+            var Overview = UITreeReader.GetUITrees(_clientParams, "OverView");
             if (Overview == null)
                 return null;
             Overview = Overview.FindEntityOfString("OverviewScrollEntry");
@@ -138,7 +144,7 @@ namespace EVE_Bot.Parsers
             }
             return OverviewInfo;
         }
-        static public string GetColorInfo(Colors ComparedColor)
+        public string GetColorInfo(Colors ComparedColor)
         {
             if (ComparedColor.Red == 100
             && ComparedColor.Green == 100
