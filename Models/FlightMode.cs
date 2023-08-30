@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Models
 {
-    internal class FlightMode
+    public enum FlightMode
     {
+        None,
+        Approaching,
+        Aligning,
+        Orbiting,
+        Warping,
+        Jumping,
+        ClickTarget,
+        KeepingAtRange,
     }
 }

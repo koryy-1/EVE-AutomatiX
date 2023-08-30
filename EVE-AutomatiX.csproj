@@ -85,6 +85,8 @@
     <Compile Include="ClientWindow\Client.cs" />
     <Compile Include="ClientWindow\Parser.cs" />
     <Compile Include="Models\BotMode.cs" />
+    <Compile Include="Models\FlightMode.cs" />
+    <Compile Include="Models\SpaceObjectAction.cs" />
     <Compile Include="Starship\API\CombatSystems.cs" />
     <Compile Include="Starship\API\Diagnostics.cs" />
     <Compile Include="Starship\Controllers\DroneController.cs" />
@@ -98,18 +100,13 @@
     <Compile Include="Starship\Modules\Weapon.cs" />
     <Compile Include="Starship\Monitors\TargetMonitor.cs" />
     <Compile Include="Starship\Ship.cs" />
-    <Compile Include="BotSystem\Strategics\oldFunc\Autopilot.cs" />
     <Compile Include="Starship\API\Finder.cs" />
-    <Compile Include="BotSystem\Strategics\oldFunc\Finders1.cs" />
-    <Compile Include="BotSystem\Strategics\oldFunc\General.cs" />
     <Compile Include="Starship\API\Looting.cs" />
-    <Compile Include="BotSystem\Strategics\oldFunc\MainScripts.cs" />
     <Compile Include="Starship\API\Navigating.cs" />
     <Compile Include="Starship\API\Routing.cs" />
-    <Compile Include="BotSystem\Strategics\oldFunc\SecScripts.cs" />
     <Compile Include="ClientWindow\UIHandlers\ReadMemory.cs" />
     <Compile Include="Models\ActiveItemInfo.cs" />
-    <Compile Include="Models\AtciveItemButton.cs" />
+    <Compile Include="Models\ActiveItemButton.cs" />
     <Compile Include="Models\ChatPlayer.cs" />
     <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\Distance.cs" />
@@ -125,7 +122,7 @@
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\ProbeScanItem.cs" />
     <Compile Include="Models\RoutePanel.cs" />
-    <Compile Include="Models\ShipState.cs" />
+    <Compile Include="Models\ShipFlightMode.cs" />
     <Compile Include="Models\BotState.cs" />
     <Compile Include="Models\TargetInBar.cs" />
     <Compile Include="Starship\Monitors\ShipHPMonitor.cs" />
@@ -138,7 +135,7 @@
     <Compile Include="ClientWindow\Parsers\NP.cs" />
     <Compile Include="ClientWindow\Parsers\OV.cs" />
     <Compile Include="ClientWindow\Parsers\PS.cs" />
-    <Compile Include="ClientWindow\Parsers\SI.cs" />
+    <Compile Include="ClientWindow\Parsers\AI.cs" />
     <Compile Include="ClientWindow\Parsers\TB.cs" />
     <Compile Include="ClientWindow\Parsers\UITreeReader.cs" />
     <Compile Include="Starship\API\Docking.cs" />

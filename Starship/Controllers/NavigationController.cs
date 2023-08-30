@@ -37,15 +37,9 @@ namespace EVE_AutomatiX.Controllers
             // priority
             // 1 low shield
             // 2 approuch enemy
-            // 3 orbit enemy
-            // 4 some actions to defined target
-
-            //Jumping
-            //Click target
-            //Approaching
-            //Orbiting
-            //Warping
-            //Aligning
+            // 3 some actions to defined target
+            // 4 orbit enemy
+            // 5 ship stop
 
             while (true)
             {
@@ -57,7 +51,7 @@ namespace EVE_AutomatiX.Controllers
                     {
                         var Enemy = Finder.GetEnemies().OrderBy(item => Finder.Km2m(item.Distance)).ToList().FirstOrDefault();
 
-                        _navigating.SetFlightModeOnObject(Enemy, FlightMode.KeepingAtRange);
+                        _navigating.SetFlightModeOnObject(FlightMode.KeepingAtRange, Enemy);
                     }
                 }
 
@@ -77,27 +71,29 @@ namespace EVE_AutomatiX.Controllers
 
                 else if (_navigating._spaceObject != null)
                 {
-                    !_navigating.CheckFlightMode(FlightMode.KeepingAtRange, spaceObject)
-                    if (!Checkers.CheckState(ThreadManager.ExpectedState, ThreadManager.ItemInSpace))
+                    if (!_navigating.CheckFlightMode())
                     {
-                        General.GotoInActiveItem(ThreadManager.ItemInSpace, ThreadManager.FlightManeuver);
+                        _navigating.SetFlightModeOnObject();
 
                         _propModule.Enable();
                     }
                 }
-                else if (ThreadManager.ItemInSpace == "" && ThreadManager.FlightManeuver == "")
+                else if (Finder.GetEnemies().Count != 0)
                 {
-                    if (CurrentState != "Ship Stopping")
+                    var Enemy = _client.Parser.OV.GetInfo()
+                        .Find(item => _client.Parser.OV.GetColorInfo(item.Colors) is "red");
+
+                    if (!_navigating.CheckFlightMode(FlightMode.KeepingAtRange, Enemy))
                     {
-                        Emulators.AllowControlEmulator = false;
-                        General.ModuleActivityManager(ModulesInfo.MWD, false, PrivilegeControl: true);
-                        Emulators.AllowControlEmulator = true;
-                        General.SetSpeed(0);
-                        var CurrentShipState = HI.GetShipState(HI.GetHudContainer());
-                        if (CurrentShipState != null)
-                        {
-                        }
+                        _navigating.OrbitObject(Enemy);
+
+                        _propModule.Enable();
                     }
+                }
+                else if (!_navigating.CheckFlightMode(FlightMode.None))
+                {
+                    _propModule.Disable();
+                    _navigating.ShipStop();
                 }
 
                 Thread.Sleep(5 * 1000);

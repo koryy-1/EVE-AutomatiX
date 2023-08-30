@@ -33,7 +33,7 @@ namespace EVE_AutomatiX.Monitors
         public override void Work()
         {
             // calc delta
-            // equal treshold shield value
+            // equal threshold shield value
             // set flag IsLowShield
             throw new NotImplementedException();
         }

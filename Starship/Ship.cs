@@ -88,13 +88,13 @@ namespace EVE_AutomatiX
             targetMonitor.StartThread();
 
             // controllers
-            targetController = new TargetController(client, behavior);
+            targetController = new TargetController(client, behavior, config.WeaponsRange);
             targetController.StartThread();
 
             missileController = new MissileController(client, behavior, weapon);
             missileController.StartThread();
 
-            navigationController = new NavigationController(client, behavior, propModule);
+            navigationController = new NavigationController(client, behavior, Navigating, propModule);
 
             // StartThread Controllers and Monitors
             //ThreadCreater threadCreater = new ThreadCreater(_config, _behavior, _currentState);

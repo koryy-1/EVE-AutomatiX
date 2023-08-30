@@ -232,9 +232,11 @@ namespace EVE_Bot.Parsers
         {
             UITreeNode HudContainer = GetHudContainer(_clientParams);
 
+            ShipFlightMode ShipState = new ShipFlightMode();
+
             if (HudContainer == null)
             {
-                return null;
+                return ShipState;
             }
 
             var idx = 0;
@@ -246,21 +248,20 @@ namespace EVE_Bot.Parsers
                 .children[4 + idx];
 
             if (indicationContainer == null)
-                return null;
+                return ShipState;
             if (indicationContainer.children == null)
-                return null;
+                return ShipState;
             if (indicationContainer.children.Length < 2)
-                return null;
+                return ShipState;
             if (indicationContainer.children[0] == null)
-                return null;
+                return ShipState;
             if (!indicationContainer.children[0].dictEntriesOfInterest.ContainsKey("_setText"))
-                return null;
+                return ShipState;
             if (indicationContainer.children[1] == null)
-                return null;
+                return ShipState;
             if (!indicationContainer.children[1].dictEntriesOfInterest.ContainsKey("_setText"))
-                return null;
+                return ShipState;
 
-            ShipFlightMode ShipState = new ShipFlightMode();
 
             var CurrentItemAndDistance = indicationContainer.children[0].dictEntriesOfInterest["_setText"].ToString();
             var CurrentFlightMode = indicationContainer.children[1].dictEntriesOfInterest["_setText"].ToString();
@@ -268,12 +269,50 @@ namespace EVE_Bot.Parsers
             ShipState.CurrentItemAndDistance = CurrentItemAndDistance;
             ShipState.CurrentFlightMode = GetFlightMode(CurrentFlightMode);
 
+            // todo: separate cur item (type OVItem) and cur distance (type Distance) in output GetShipFlightMode()
+
             return ShipState;
         }
 
         private FlightMode GetFlightMode(string RawFlightMode)
         {
+            //Approaching
+            //Aligning
+            //Orbiting
+            //Keeping at Range
+            //Warping
+            //Jumping
+            //Click target
 
+            if (RawFlightMode.Contains("Approaching"))
+            {
+                return FlightMode.Approaching;
+            }
+            if (RawFlightMode.Contains("Aligning"))
+            {
+                return FlightMode.Aligning;
+            }
+            else if (RawFlightMode.Contains("Orbiting"))
+            {
+                return FlightMode.Orbiting;
+            }
+            else if (RawFlightMode.Contains("Keeping at Range"))
+            {
+                return FlightMode.KeepingAtRange;
+            }
+            else if (RawFlightMode.Contains("Warp"))
+            {
+                return FlightMode.Warping;
+            }
+            else if (RawFlightMode.Contains("Jumping"))
+            {
+                return FlightMode.Jumping;
+            }
+            else if (RawFlightMode.Contains("Click target"))
+            {
+                return FlightMode.ClickTarget;
+            }
+            return FlightMode.None;
         }
 
         private UITreeNode GetHudContainer(ClientParams clientParams)

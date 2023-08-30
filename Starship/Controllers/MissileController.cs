@@ -3,7 +3,6 @@ using EVE_AutomatiX.Models;
 using EVE_AutomatiX.Starship.Modules;
 using EVE_AutomatiX.Utils;
 using EVE_Bot.Parsers;
-using EVE_Bot.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

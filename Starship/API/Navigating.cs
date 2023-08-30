@@ -31,7 +31,7 @@ namespace EVE_AutomatiX.Starship.API
 
         public void SetFlightModeOnObject(FlightMode flightMode, OverviewItem spaceObject)
         {
-            // Click(Object.Pos);
+            // Click(spaceObject.Pos);
             // click in active item need flightMode
             throw new NotImplementedException();
         }
@@ -77,6 +77,11 @@ namespace EVE_AutomatiX.Starship.API
         }
 
         public void SetSpeed()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void ShipStop()
         {
             throw new NotImplementedException();
         }

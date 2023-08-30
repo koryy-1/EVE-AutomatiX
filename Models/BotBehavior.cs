@@ -37,6 +37,7 @@ namespace EVE_AutomatiX.Models
         volatile public bool AllowToOpenFire = false;
         volatile public bool EnemiesInGrid = false;
         volatile public bool TargetControllerEnabled = false;
+        volatile public bool CloseDistanceToEnemy = false;
     }
 
     public class ShipHPFlags
@@ -47,12 +48,6 @@ namespace EVE_AutomatiX.Models
 
     public class ShipControlFlags
     {
-        volatile public bool AllowShipControl = true;
         volatile public bool AllowDocking = true;
-        volatile public bool AllowNavigationControl = false;
-        volatile public bool CloseDistanceToEnemy = false;
-        volatile public string ItemInSpace = "";
-        volatile public string FlightManeuver = "";
-        volatile public string ExpectedState = "";
     }
 }

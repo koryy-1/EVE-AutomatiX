@@ -1,5 +1,6 @@
 ﻿using EVE_AutomatiX.ClientWindow;
 using EVE_AutomatiX.Models;
+using EVE_AutomatiX.Starship.API;
 using EVE_Bot.Models;
 using EVE_Bot.Parsers;
 using System;
@@ -16,13 +17,14 @@ namespace EVE_AutomatiX.Starship.Controllers
     {
         private Client _client;
         private BotBehavior _botBehavior;
-        private int _weaponsRange;
+        private Distance _weaponsRange;
 
         public TargetController(Client client, BotBehavior botBehavior, int weaponsRange)
         {
             _client = client;
             _botBehavior = botBehavior;
-            _weaponsRange = weaponsRange;
+            _weaponsRange.value = weaponsRange;
+            _weaponsRange.measure = "km";
         }
         public override bool ConditionToStartWorker()
         {
@@ -45,22 +47,18 @@ namespace EVE_AutomatiX.Starship.Controllers
 
         private void EnsureTargetIsAvailable()
         {
-            //var TargetsInBar = TB.GetInfo();
-            var OverviewTargetsInfo = _client.Parser.OV.GetInfo().Find(item => item.AimOnTargetLocked);
-            if (OverviewTargetsInfo == null)
-                return;
-
-            if (!AttackingTargetIsAvailable(OverviewTargetsInfo))
+            if (!AttackingTargetIsAvailable())
             {
                 ChangeToNearestTarget();
             }
         }
 
-        private bool AttackingTargetIsAvailable(OverviewItem OverviewTargetsInfo)
+        private bool AttackingTargetIsAvailable()
         {
-            if (OverviewTargetsInfo.Distance.measure == "km" && 
-                OverviewTargetsInfo.Distance.value < _weaponsRange || 
-                OverviewTargetsInfo.Distance.measure == "m")
+            //var TargetsInBar = TB.GetInfo();
+
+            if (Finder.GetEnemies()
+                .Exists(item => item.AimOnTargetLocked && (Finder.Km2m(item.Distance) < Finder.Km2m(_weaponsRange))))
             {
                 return true;
             }
@@ -69,15 +67,11 @@ namespace EVE_AutomatiX.Starship.Controllers
 
         private void ChangeToNearestTarget()
         {
-            OverviewItem Target = _client.Parser.OV.GetInfo().Find(
-                item => item.Distance.measure == "km" &&
-                item.Distance.value < _weaponsRange ||
-                item.Distance.measure == "m");
+            var Target = Finder.GetEnemies()
+                .Find(item => Finder.Km2m(item.Distance) < Finder.Km2m(_weaponsRange));
 
             if (Target == null)
-            {
                 return;
-            }
 
             Emulators.ClickLB(Target.Pos.x, Target.Pos.y);
             Console.WriteLine("target changed");

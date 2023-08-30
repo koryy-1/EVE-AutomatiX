@@ -62,6 +62,11 @@ namespace EVE_AutomatiX.Starship.Monitors
             return true;
         }
 
+        private bool AimOnTargetLockedOutOfWeaponRange()
+        {
+            throw new NotImplementedException();
+        }
+
         private bool ExtraTargetsLocked()
         {
             throw new NotImplementedException();
@@ -74,7 +79,9 @@ namespace EVE_AutomatiX.Starship.Monitors
 
         private bool EnemiesOutOfWeaponRange()
         {
-            throw new NotImplementedException();
+            /// parse distance nearby enemy
+            _botBehavior.CombatFlags.CloseDistanceToEnemy = true;
+            return true;
         }
     }
 }
