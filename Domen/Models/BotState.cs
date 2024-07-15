@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domen.Models
+{
+    public enum BotState
+    {
+        Active,
+        Disabled,
+        FallDown,
+        Paused,
+        Idle
+    }
+}
