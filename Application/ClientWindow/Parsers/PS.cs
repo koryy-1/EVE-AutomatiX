@@ -9,24 +9,21 @@ namespace Application.ClientWindow.Parsers
     public class PS : InGameWnd
     {
         private ClientParams _clientParams;
-        private Point _wndCoords;
         private int _wndWidth;
 
         public PS(ClientParams clientParams)
         {
             _clientParams = clientParams;
-            var probeScannerWindow = UITreeReader.GetUITrees(_clientParams, "ProbeScannerWindow");
-            if (probeScannerWindow != null)
-            {
-                _wndCoords = GetCoordsEntityOnScreen(probeScannerWindow);
-                _wndWidth = GetWidthEntity(probeScannerWindow);
-            }
         }
+
         public List<ProbeScanItem> GetInfo()
         {
             var probeScannerWindow = UITreeReader.GetUITrees(_clientParams, "ProbeScannerWindow");
             if (probeScannerWindow == null)
                 return null;
+
+            WndCoords = GetCoordsEntityOnScreen(probeScannerWindow);
+            _wndWidth = GetWidthEntity(probeScannerWindow);
 
             var scanResultEntries = FindNodesByObjectName(probeScannerWindow, "ScanResultNew");
 
@@ -41,7 +38,7 @@ namespace Application.ClientWindow.Parsers
 
                 ProbeScanItem probeScanItem = new ProbeScanItem();
 
-                probeScanItem.Pos = GetPosOnWindow(scanResultEntry, _wndCoords);
+                probeScanItem.Pos = GetPosOnWindow(scanResultEntry, WndCoords);
 
                 probeScanItem.Distance = GetDistance(scanResultEntry);
 
@@ -63,11 +60,7 @@ namespace Application.ClientWindow.Parsers
 
             var rawValue = fields.ToList()[0].dictEntriesOfInterest["_setText"].ToString();
 
-            var distance = new Distance()
-            {
-                value = Convert.ToInt32(rawValue.Split()[0].Split(".")[0]),
-                measure = rawValue.Split()[1]
-            };
+            var distance = ParseDistance(rawValue);
 
             return distance;
         }

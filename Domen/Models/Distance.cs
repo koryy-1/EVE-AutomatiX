@@ -6,7 +6,7 @@ namespace Domen.Models
 {
     public class Distance
     {
-        public int value { get; set; }
-        public string measure { get; set; }
+        public double Value { get; set; }
+        public string Measure { get; set; }
     }
 }

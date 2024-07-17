@@ -10,20 +10,21 @@ namespace Application.ClientWindow.Parsers
     public class OV : InGameWnd
     {
         private ClientParams _clientParams;
-        private Point _wndCoords;
-        private Dictionary<string, int> _columnInfo;
+        private Dictionary<string, int> _columnIdxes;
 
         public OV(ClientParams clientParams)
         {
             _clientParams = clientParams;
-            _wndCoords = GetCoordWindow(_clientParams, "OverviewWindow");
-            _columnInfo = getColumns();
         }
+
         public List<OverviewItem> GetInfo()
         {
             var Overview = UITreeReader.GetUITrees(_clientParams, "OverviewWindow");
             if (Overview == null)
                 return null;
+
+            WndCoords = GetCoordsEntityOnScreen(Overview);
+            _columnIdxes = getColumnIdxes();
 
             var OverviewEntries = FindNodesByObjectName(Overview, "OverviewScrollEntry");
 
@@ -38,7 +39,7 @@ namespace Application.ClientWindow.Parsers
 
                 OverviewItem OverviewItemInfo = new OverviewItem();
 
-                OverviewItemInfo.Pos = GetPosOnWindow(OverviewEntry, _wndCoords);
+                OverviewItemInfo.Pos = GetPosOnWindow(OverviewEntry, WndCoords);
 
                 OverviewItemInfo.Color = GetIconColor(OverviewEntry);
 
@@ -70,13 +71,14 @@ namespace Application.ClientWindow.Parsers
 
         private int GetSpeed(UITreeNode node)
         {
-            var distanceNode = FindNodeByColumnWidth(node, "Velocity", "Angular Velocity");
+            var distanceNode = FindNodeByColumnName(node, "Velocity");
             if (distanceNode == null)
                 return 0;
 
             var rawValue = distanceNode.dictEntriesOfInterest["_text"].ToString();
 
-            var speed = rawValue == "-" ? "0" : rawValue.Replace(",", "");
+            //todo: parse int64 from difference culture
+            var speed = rawValue == "-" ? "0" : rawValue.Replace(",", "").Replace(" ", "");
 
             return Convert.ToInt32(speed);
         }
@@ -100,7 +102,7 @@ namespace Application.ClientWindow.Parsers
 
         private string GetSpaceObjectType(UITreeNode node)
         {
-            var distanceNode = FindNodeByColumnWidth(node, "Type", "Size");
+            var distanceNode = FindNodeByColumnName(node, "Type");
             if (distanceNode == null)
                 return null;
 
@@ -109,7 +111,7 @@ namespace Application.ClientWindow.Parsers
 
         private string GetName(UITreeNode node)
         {
-            var distanceNode = FindNodeByColumnWidth(node, "Name", "Type");
+            var distanceNode = FindNodeByColumnName(node, "Name");
             if (distanceNode == null)
                 return null;
 
@@ -118,29 +120,30 @@ namespace Application.ClientWindow.Parsers
 
         private Distance GetDistance(UITreeNode node)
         {
-            var distanceNode = FindNodeByColumnWidth(node, "Distance", "Name");
+            var distanceNode = FindNodeByColumnName(node, "Distance");
             if (distanceNode == null)
                 return null;
 
             var rawDistance = distanceNode.dictEntriesOfInterest["_text"].ToString();
 
-            var distance = parseDistance(rawDistance);
+            var distance = ParseDistance(rawDistance);
 
             return distance;
         }
 
-        private UITreeNode FindNodeByColumnWidth(UITreeNode node, string firstCol, string secondCol)
+        private UITreeNode FindNodeByColumnName(UITreeNode node, string colName)
         {
-            foreach (var child in node.children)
-            {
-                var offset = ExtractIntValue(child, "_displayX");
-                if (offset > _columnInfo[firstCol] &&
-                    offset < _columnInfo[secondCol])
-                {
-                    return child;
-                }
-            }
-            return null;
+            //foreach (var child in node.children)
+            //{
+            //    var offset = ExtractIntValue(child, "_displayX");
+            //    if (offset > _columnIdxes[colName] &&
+            //        offset < _columnIdxes[secondCol])
+            //    {
+            //        return child;
+            //    }
+            //}
+            var child = node.children[_columnIdxes[colName]];
+            return child;
         }
 
         private Color GetIconColor(UITreeNode node)
@@ -163,18 +166,19 @@ namespace Application.ClientWindow.Parsers
             return point;
         }
 
-        private Dictionary<string, int> getColumns()
+        private Dictionary<string, int> getColumnIdxes()
         {
-            // todo: it must be in config
+            // todo: parse column info from Headers
+            // or it must be in config
             var columns = new Dictionary<string, int>()
             {
-                { "Icon", 3 },
-                { "Distance", 30 },
-                { "Name", 130 },
-                { "Type", 240 },
-                { "Size", 355 },
-                { "Velocity", 430 },
-                { "Angular Velocity", 490 },
+                { "Icon", 6 },
+                { "Distance", 5 },
+                { "Name", 4 },
+                { "Type", 3 },
+                { "Size", 2 },
+                { "Velocity", 1 },
+                { "Angular Velocity", 0 },
             };
 
             return columns;

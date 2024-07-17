@@ -15,6 +15,7 @@ namespace Application.ClientWindow.Parsers
         {
             _clientParams = clientParams;
         }
+
         public List<NotepadItem> GetInfo()
         {
             var wndCoords = GetCoordWindow(_clientParams, "NotepadWindow");

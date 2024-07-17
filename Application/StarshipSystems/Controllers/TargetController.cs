@@ -20,8 +20,8 @@ namespace Application.StarshipSystems.Controllers
             _client = client;
             _botBehavior = botBehavior;
             _weaponsRange = new Distance();
-            _weaponsRange.value = weaponsRange;
-            _weaponsRange.measure = "km";
+            _weaponsRange.Value = weaponsRange;
+            _weaponsRange.Measure = "km";
         }
         public bool ConditionToStartWorker()
         {

@@ -14,6 +14,7 @@ namespace Application.ClientWindow.Parsers
         {
             _clientParams = clientParams;
         }
+
         public RoutePanel GetRoutePanel()
         {
             RoutePanel routePanel = new RoutePanel();

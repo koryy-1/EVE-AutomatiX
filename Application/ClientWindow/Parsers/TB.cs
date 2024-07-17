@@ -14,6 +14,7 @@ namespace Application.ClientWindow.Parsers
         {
             _clientParams = clientParams;
         }
+
         public List<TargetInBar> GetInfo()
         {
             var TargetInBarEntry = UITreeReader.GetUITrees(_clientParams, "TargetInBar", 6, true);
@@ -35,9 +36,9 @@ namespace Application.ClientWindow.Parsers
                 int value;
                 int.TryParse(string.Join("", valueStr.Where(c => char.IsDigit(c))), out value);
 
-                Target.Distance.value = value;
+                Target.Distance.Value = value;
 
-                Target.Distance.measure = valueStr.Split().Last();
+                Target.Distance.Measure = valueStr.Split().Last();
 
                 Target.Name = TargetInBarEntry.children[i].children[1].children[0].dictEntriesOfInterest["_setText"].ToString();
 

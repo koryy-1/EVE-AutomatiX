@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +18,9 @@ namespace Application.ClientWindow.Parsers
 {
     public class InGameWnd
     {
+        public Point WndCoords { get; set; }
+        public Point WndCoords2 { get; set; }
+
         // todo: make protected instead public
         public Point GetCoordWindow(ClientParams clientProcess, string windowName)
         {
@@ -93,13 +98,24 @@ namespace Application.ClientWindow.Parsers
             return Convert.ToInt32(node.dictEntriesOfInterest[key]);
         }
 
-        public Distance parseDistance(string rawDistance)
+        public Distance ParseDistance(string rawDistance)
         {
-            var value = Convert.ToInt32(rawDistance.Split()[0].Replace(",", "").Split('.')[0]);
+            var numberPart = string.Join("", rawDistance.Split().SkipLast(1));
+            var measurePart = rawDistance.Split().Last();
+
+            CultureInfo culture = new CultureInfo("en-US");
+            if (measurePart == "AU")
+            {
+                if (numberPart.Contains(",") && !numberPart.Contains("."))
+                    culture = new CultureInfo("ru-RU");
+            }
+
+            var value = double.Parse(numberPart, culture);
+
             var distance = new Distance()
             {
-                value = value,
-                measure = rawDistance.Split().Last()
+                Value = value,
+                Measure = measurePart
             };
 
             return distance;

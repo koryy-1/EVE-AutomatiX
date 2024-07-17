@@ -13,6 +13,7 @@ namespace Application.ClientWindow.Parsers
         {
             _clientParams = clientParams;
         }
+
         public List<DScanItem> GetInfo()
         {
             var DScanWnd = UITreeReader.GetUITrees(_clientParams, "DirectionalScanner");

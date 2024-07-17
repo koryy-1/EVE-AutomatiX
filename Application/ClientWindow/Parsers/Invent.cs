@@ -10,26 +10,22 @@ namespace Application.ClientWindow.Parsers
     public class Invent : InGameWnd
     {
         private ClientParams _clientParams;
-        private Point _wndCoords;
-        private Point _wndCoords2;
         private int _leftSidebarWidth;
 
         public Invent(ClientParams clientParams)
         {
             _clientParams = clientParams;
-            var inventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
-            if (inventoryPrimary != null)
-            {
-                _wndCoords = GetCoordsEntityOnScreen(inventoryPrimary);
-                _wndCoords2 = GetCoordsEntityOnScreen2(inventoryPrimary);
-                _leftSidebarWidth = GetWidthWindow(_clientParams, "TreeViewEntryInventoryCargo") + 10;
-            }
         }
+
         public List<InventoryItem> GetInfo()
         {
             var inventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
             if (inventoryPrimary == null)
                 return null;
+
+            WndCoords = GetCoordsEntityOnScreen(inventoryPrimary);
+            WndCoords2 = GetCoordsEntityOnScreen2(inventoryPrimary);
+            _leftSidebarWidth = GetWidthWindow(_clientParams, "TreeViewEntryInventoryCargo") + 10;
 
             var cargoTree = FindNodesByObjectName(inventoryPrimary, "Row");
 
@@ -55,8 +51,8 @@ namespace Application.ClientWindow.Parsers
 
                     Item.Pos = new Point()
                     {
-                        x = _wndCoords.x + XItem + _leftSidebarWidth + 10 + 35,
-                        y = _wndCoords.y + YItem + 80 + 40
+                        x = WndCoords.x + XItem + _leftSidebarWidth + 10 + 35,
+                        y = WndCoords.y + YItem + 80 + 40
                     };
 
                     Item.Name = GetName(itemNode);
@@ -99,18 +95,21 @@ namespace Application.ClientWindow.Parsers
 
         public Point GetLootAllBtnPos()
         {
-            var InventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
-            if (InventoryPrimary == null)
+            var inventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
+            if (inventoryPrimary == null)
                 return null;
 
-            var invLootAllBtnNode = FindNodesByInterestName(InventoryPrimary, "invLootAllBtn").FirstOrDefault();
+            WndCoords = GetCoordsEntityOnScreen(inventoryPrimary);
+            WndCoords2 = GetCoordsEntityOnScreen2(inventoryPrimary);
+
+            var invLootAllBtnNode = FindNodesByInterestName(inventoryPrimary, "invLootAllBtn").FirstOrDefault();
             if (invLootAllBtnNode == null)
                 return null;
 
             var point = new Point()
             {
-                x = _wndCoords2.x - 50,
-                y = _wndCoords2.y - 30
+                x = WndCoords2.x - 50,
+                y = WndCoords2.y - 30
             };
 
             return point;

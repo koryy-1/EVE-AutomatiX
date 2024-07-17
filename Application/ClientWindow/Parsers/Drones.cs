@@ -12,24 +12,20 @@ namespace Application.ClientWindow.Parsers
     public class Drones : InGameWnd
     {
         private ClientParams _clientParams;
-        private Point _wndCoords;
-        private Point _wndCoords2;
 
         public Drones(ClientParams clientParams)
         {
             _clientParams = clientParams;
-            var dronesWindowEntry = UITreeReader.GetUITrees(_clientParams, "DronesWindow");
-            if (dronesWindowEntry != null)
-            {
-                _wndCoords = GetCoordsEntityOnScreen(dronesWindowEntry);
-                _wndCoords2 = GetCoordsEntityOnScreen2(dronesWindowEntry);
-            }
         }
+
         public List<Drone> GetInfo()
         {
             var dronesWindowEntry = UITreeReader.GetUITrees(_clientParams, "DronesWindow");
             if (dronesWindowEntry == null)
                 return null;
+
+            WndCoords = GetCoordsEntityOnScreen(dronesWindowEntry);
+            WndCoords2 = GetCoordsEntityOnScreen2(dronesWindowEntry);
 
             var dronesInSpaceCount = GetDronesInSpaceCount(dronesWindowEntry);
 
@@ -43,7 +39,7 @@ namespace Application.ClientWindow.Parsers
                 if (!droneNode.HasValidChildren(new int[] { 0, 0, 0, 0 }))
                     continue;
 
-                var drone = ExtractDroneInfo(droneNode, _wndCoords, _wndCoords2, dronesInSpaceCount);
+                var drone = ExtractDroneInfo(droneNode, WndCoords, WndCoords2, dronesInSpaceCount);
                 droneList.Add(drone);
             }
 
@@ -55,7 +51,7 @@ namespace Application.ClientWindow.Parsers
                 if (!droneNode.HasValidChildren(new int[] { 0, 0, 0, 0 }))
                     continue;
 
-                var drone = ExtractDroneInfo(droneNode, _wndCoords, _wndCoords2);
+                var drone = ExtractDroneInfo(droneNode, WndCoords, WndCoords2);
                 droneList.Add(drone);
             }
             

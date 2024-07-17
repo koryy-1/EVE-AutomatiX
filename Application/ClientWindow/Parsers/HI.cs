@@ -17,6 +17,7 @@ namespace Application.ClientWindow.Parsers
         {
             _clientParams = clientParams;
         }
+
         public HudInterface GetInfo()
         {
             HudInterface HudInterface = new HudInterface();
