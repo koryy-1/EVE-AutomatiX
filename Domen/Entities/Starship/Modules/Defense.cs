@@ -1,4 +1,4 @@
-﻿using Domen.Constants;
+﻿using Domen.Enums;
 using Domen.Models;
 using System;
 using System.Collections.Generic;
@@ -10,14 +10,14 @@ namespace EVE_AutomatiX.Starship.Modules
 {
     public class Defense : ShipModule
     {
-        public Defense(List<Module> modules)
+        public Defense(List<Domen.Models.ShipModule> modules)
         {
             Modules = modules;
             Modules
                 .ForEach(module => {
-                    if (module.Name == ModuleName.ThermalHardener ||
-                    module.Name == ModuleName.KineticHardener ||
-                    module.Name == ModuleName.MultispectrumHardener)
+                    if (module.Name == ModuleNames.ThermalHardener ||
+                    module.Name == ModuleNames.KineticHardener ||
+                    module.Name == ModuleNames.MultispectrumHardener)
                         Name = module.Name;
                 });
         }

@@ -23,5 +23,13 @@ namespace WebAPI.Controllers
             var overViewInfo = _probeScannerService.GetInfo();
             return Ok(overViewInfo);
         }
+
+        [HttpPost("WarpToAnomaly", Name = "WarpToAnomaly")]
+        public IActionResult WarpToAnomaly([FromBody] ProbeScanItem probeScanItem)
+        {
+            _probeScannerService.WarpToAnomaly(probeScanItem);
+
+            return Ok(new { message = "warping to anomaly" });
+        }
     }
 }

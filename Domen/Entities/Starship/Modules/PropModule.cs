@@ -1,4 +1,4 @@
-﻿using Domen.Constants;
+﻿using Domen.Enums;
 using Domen.Models;
 using System;
 using System.Collections.Generic;
@@ -10,12 +10,12 @@ namespace EVE_AutomatiX.Starship.Modules
 {
     public class PropModule : ShipModule
     {
-        public PropModule(List<Module> modules)
+        public PropModule(List<Domen.Models.ShipModule> modules)
         {
             Modules = modules;
             Modules
                 .ForEach(module => {
-                    if (module.Name == ModuleName.AB || module.Name == ModuleName.MWD)
+                    if (module.Name == ModuleNames.AB || module.Name == ModuleNames.MWD)
                         Name = module.Name;
             });
         }

@@ -34,7 +34,7 @@ namespace Application.Services
             return _client.Parser.HI.GetCurrentSpeed();
         }
 
-        public IEnumerable<Module> GetAllModules()
+        public IEnumerable<ShipModule> GetAllModules()
         {
             return _client.Parser.HI.GetAllModulesInfo();
         }

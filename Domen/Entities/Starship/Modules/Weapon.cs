@@ -1,4 +1,4 @@
-﻿using Domen.Constants;
+﻿using Domen.Enums;
 using Domen.Models;
 using System;
 using System.Collections.Generic;
@@ -12,14 +12,14 @@ namespace EVE_AutomatiX.Starship.Modules
     {
         int _weaponsRange;
         string _charges;
-        public Weapon(List<Module> modules, int weaponsRange, string charges)
+        public Weapon(List<Domen.Models.ShipModule> modules, int weaponsRange, string charges)
         {
             Modules = modules;
             _weaponsRange = weaponsRange;
             _charges = charges;
             Modules
                 .ForEach(module => {
-                    if (module.Name == ModuleName.MissileLauncher)
+                    if (module.Name == ModuleNames.MissileLauncher)
                         Name = module.Name;
                 });
         }

@@ -1,6 +1,7 @@
 ﻿using Application.ClientWindow.Parsers;
 using Application.ClientWindow.UIHandlers;
 using Domen.Constants;
+using Domen.Enums;
 using Domen.Models;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ namespace Application.ClientWindow.Parsers
             }
             return -1;
         }
-        public List<Module> GetAllModulesInfo()
+        public List<ShipModule> GetAllModulesInfo()
         {
             UITreeNode HudContainer = GetHudContainer(_clientParams);
             if (HudContainer == null)
@@ -112,14 +113,14 @@ namespace Application.ClientWindow.Parsers
 
             var SlotsContainer = FindNodesByObjectName(HudContainer, "ShipSlot");
 
-            List<Module> AllModules = new List<Module>();
+            List<ShipModule> AllModules = new List<ShipModule>();
 
             foreach (var slotNode in SlotsContainer)
             {
                 if (slotNode == null)
                     continue;
 
-                Module Module = new Module();
+                ShipModule Module = new ShipModule();
 
                 Module.Name = GetModuleName(slotNode);
 
@@ -226,13 +227,13 @@ namespace Application.ClientWindow.Parsers
             return 0;
         }
 
-        private ModuleName GetModuleName(UITreeNode slotNode)
+        private ModuleNames GetModuleName(UITreeNode slotNode)
         {
             var RawModuleName = slotNode.children[0].dictEntriesOfInterest["_name"].ToString();
 
             if (ModulesData.ModuleNamesDict.ContainsKey(RawModuleName))
                 return ModulesData.ModuleNamesDict[RawModuleName];
-            return ModuleName.None;
+            return ModuleNames.None;
         }
 
         public ShipFlightMode GetShipFlightMode()
@@ -286,6 +287,7 @@ namespace Application.ClientWindow.Parsers
             //Orbiting
             //Keeping at Range
             //Warping
+            //Warp Drive Active
             //Jumping
             //Click target
 

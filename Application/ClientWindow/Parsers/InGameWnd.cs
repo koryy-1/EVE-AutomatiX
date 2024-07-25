@@ -102,6 +102,8 @@ namespace Application.ClientWindow.Parsers
         {
             var numberPart = string.Join("", rawDistance.Split().SkipLast(1));
             var measurePart = rawDistance.Split().Last();
+            // non-breaking space
+            //.Replace("\u00A0", "");
 
             CultureInfo culture = new CultureInfo("en-US");
             if (measurePart == "AU")

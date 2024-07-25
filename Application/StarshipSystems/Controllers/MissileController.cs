@@ -1,5 +1,5 @@
 ﻿using Application.ClientWindow;
-using Domen.Constants;
+using Domen.Enums;
 using Domen.Models;
 using EVE_AutomatiX;
 using EVE_AutomatiX.Starship.Modules;
@@ -36,7 +36,7 @@ namespace Application.StarshipSystems.Controllers
         {
             while (true)
             {
-                if (_weapon.Name != ModuleName.MissileLauncher)
+                if (_weapon.Name != ModuleNames.MissileLauncher)
                 {
                     //logger($"{ModuleName.MissileLauncher} not found");
                     return;

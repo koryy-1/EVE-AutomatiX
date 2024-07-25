@@ -1,13 +1,13 @@
-﻿using Domen.Constants;
+﻿using Domen.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Domen.Models
 {
-    public class Module
+    public class ShipModule
     {
-        public ModuleName Name { get; set; }
+        public ModuleNames Name { get; set; }
         public string Type { get; set; } // high / med / low
         public string Mode { get; set; } // glow / busy / idle / reloading
         public int SlotNum { get; set; }

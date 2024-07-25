@@ -47,9 +47,9 @@ namespace Domen.Entities.Starship
         //public Routing Routing;
 
         //private Client _client;
-        private List<Module> _modules;
+        private List<Models.ShipModule> _modules;
 
-        public Ship(Config config, BotBehavior behavior, List<Module> modules)
+        public Ship(Config config, BotBehavior behavior, List<Models.ShipModule> modules)
         {
             _modules = modules;
 

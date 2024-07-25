@@ -39,6 +39,12 @@ namespace Application.ClientWindow.Parsers
             if (nearestLocationEntity == null)
                 return null;
 
+            // _name :  nearestLocationInfo
+            // _name : headerLabelSystemName
+            // todo: в структуре в _setText вместо Perimeter стоит какойто pythonObjectTypeName "Link"
+            // cur system - perimeter
+            // nearest location - niyabainen
+
             var FullSystemName = nearestLocationEntity.dictEntriesOfInterest["_setText"].ToString()
                 .Split('>')[1].Split()[0];
 

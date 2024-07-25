@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("GetAllModules", Name = "GetAllModules")]
-        public ActionResult<IEnumerable<Module>> GetAllModules()
+        public ActionResult<IEnumerable<ShipModule>> GetAllModules()
         {
             var overViewInfo = _hudInterfaceService.GetAllModules();
             return Ok(overViewInfo);

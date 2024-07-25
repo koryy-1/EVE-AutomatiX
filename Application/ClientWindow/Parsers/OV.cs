@@ -69,7 +69,7 @@ namespace Application.ClientWindow.Parsers
             return string.Empty;
         }
 
-        private int GetSpeed(UITreeNode node)
+        private long GetSpeed(UITreeNode node)
         {
             var distanceNode = FindNodeByColumnName(node, "Velocity");
             if (distanceNode == null)
@@ -78,9 +78,9 @@ namespace Application.ClientWindow.Parsers
             var rawValue = distanceNode.dictEntriesOfInterest["_text"].ToString();
 
             //todo: parse int64 from difference culture
-            var speed = rawValue == "-" ? "0" : rawValue.Replace(",", "").Replace(" ", "");
+            var speed = rawValue == "-" ? "0" : rawValue.Replace(",", "").Replace(" ", "").Replace("\u00A0", "");
 
-            return Convert.ToInt32(speed);
+            return Convert.ToInt64(speed);
         }
 
         private bool IsAimOnObject(UITreeNode node)
