@@ -17,11 +17,11 @@ namespace Application.ClientWindow.Parsers
         {
             var Persons = UITreeReader.GetUITrees(_clientParams, "ChatWindowStack");
             if (Persons == null)
-                return null;
+                return new List<ChatPlayer>();
 
             Persons = Persons.FindEntityOfString("XmppChatSimpleUserEntry");
             if (Persons == null)
-                return null;
+                return new List<ChatPlayer>();
             var PersonsEntry = Persons.handleEntity("XmppChatSimpleUserEntry");
 
             List<ChatPlayer> ChatInfo = new List<ChatPlayer>();

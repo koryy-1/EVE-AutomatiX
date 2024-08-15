@@ -19,6 +19,7 @@ namespace WebAPI.Controllers
             _client = Client.GetInstance(nick);
         }
 
+        // todo: когда игра выключена вылезает failed to find by hwnd и приходится все равно перезапускать проект
         public GameClientController(ILogger<GameClientController> logger)
         {
             _logger = logger;

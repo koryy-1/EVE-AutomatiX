@@ -19,7 +19,7 @@ namespace Application.ClientWindow.Parsers
         {
             var TargetInBarEntry = UITreeReader.GetUITrees(_clientParams, "TargetInBar", 6, true);
             if (TargetInBarEntry == null)
-                return null;
+                return new List<TargetInBar>();
 
             List<TargetInBar> TargetsInBar = new List<TargetInBar>();
 

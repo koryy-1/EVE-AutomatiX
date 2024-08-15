@@ -22,7 +22,7 @@ namespace Application.ClientWindow.Parsers
         {
             var dronesWindowEntry = UITreeReader.GetUITrees(_clientParams, "DronesWindow");
             if (dronesWindowEntry == null)
-                return null;
+                return new List<Drone>();
 
             WndCoords = GetCoordsEntityOnScreen(dronesWindowEntry);
             WndCoords2 = GetCoordsEntityOnScreen2(dronesWindowEntry);
@@ -140,7 +140,7 @@ namespace Application.ClientWindow.Parsers
             if (entryLabelNode.dictEntriesOfInterest["_setText"].ToString().Contains("Returning"))
                 return "Returning";
 
-            return null;
+            return string.Empty;
         }
 
         // todo: make method for Update drone window Position on screen

@@ -20,7 +20,7 @@ namespace Application.ClientWindow.Parsers
         {
             var probeScannerWindow = UITreeReader.GetUITrees(_clientParams, "ProbeScannerWindow");
             if (probeScannerWindow == null)
-                return null;
+                return new List<ProbeScanItem>();
 
             WndCoords = GetCoordsEntityOnScreen(probeScannerWindow);
             _wndWidth = GetWidthEntity(probeScannerWindow);

@@ -21,7 +21,7 @@ namespace Application.ClientWindow.Parsers
         {
             var Overview = UITreeReader.GetUITrees(_clientParams, "OverviewWindow");
             if (Overview == null)
-                return null;
+                return new List<OverviewItem>();
 
             WndCoords = GetCoordsEntityOnScreen(Overview);
             _columnIdxes = getColumnIdxes();
@@ -45,9 +45,14 @@ namespace Application.ClientWindow.Parsers
 
                 OverviewItemInfo.IconType = GetIconType(OverviewEntry);
 
+                OverviewItemInfo.LockInProgress = IsLockInProgress(OverviewEntry);
+
                 OverviewItemInfo.TargetLocked = IsObjectLocked(OverviewEntry);
 
                 OverviewItemInfo.AimOnTargetLocked = IsAimOnObject(OverviewEntry);
+
+                // todo:
+                //OverviewItemInfo.EffectByTarget = GetEffect(OverviewEntry);
 
                 OverviewItemInfo.Distance = GetDistance(OverviewEntry);
 
@@ -63,10 +68,20 @@ namespace Application.ClientWindow.Parsers
             return OverviewInfo;
         }
 
-        private string GetIconType(UITreeNode overviewEntry)
+        private string GetIconType(UITreeNode node)
         {
-            // todo: aggressive / hostile / neutral
-            return string.Empty;
+            var check = FindNodesByInterestName(node, "attackingMe");
+            if (check.Any())
+            {
+                return "aggressive";
+            }
+
+            check = FindNodesByInterestName(node, "hostile");
+            if (check.Any())
+            {
+                return "hostile";
+            }
+            return "neutral";
         }
 
         private long GetSpeed(UITreeNode node)
@@ -83,21 +98,22 @@ namespace Application.ClientWindow.Parsers
             return Convert.ToInt64(speed);
         }
 
-        private bool IsAimOnObject(UITreeNode node)
+        private bool IsLockInProgress(UITreeNode node)
         {
-            var check = FindNodesByInterestName(node, "myActiveTargetIndicator").FirstOrDefault();
-
-            return check != null;
+            var check = FindNodesByInterestName(node, "targeting");
+            return check.Any();
         }
 
         private bool IsObjectLocked(UITreeNode node)
         {
             var check = FindNodesByInterestName(node, "targetedByMeIndicator");
-            if (check.Any())
-            {
-                return true;
-            }
-            return false;
+            return check.Any();
+        }
+
+        private bool IsAimOnObject(UITreeNode node)
+        {
+            var check = FindNodesByInterestName(node, "myActiveTargetIndicator");
+            return check.Any();
         }
 
         private string GetSpaceObjectType(UITreeNode node)
@@ -142,7 +158,15 @@ namespace Application.ClientWindow.Parsers
             //        return child;
             //    }
             //}
-            var child = node.children[_columnIdxes[colName]];
+
+            // todo: parse column by header width
+            var offset = 0;
+            if (node.children[0].dictEntriesOfInterest["_name"]?.ToString() == "rightAlignedIconContainer")
+            {
+                offset += 1;
+            }
+
+            var child = node.children[_columnIdxes[colName] + offset];
             return child;
         }
 

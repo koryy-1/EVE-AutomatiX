@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Starship.Modules
 {
-    public class Weapon : ShipModule
+    public class Weapon : StarShipModule
     {
         int _weaponsRange;
         string _charges;

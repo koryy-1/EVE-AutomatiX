@@ -127,6 +127,9 @@ namespace Application.ClientWindow.Parsers
         {
             var Color = new Color();
 
+            if (!colorNode.dictEntriesOfInterest.ContainsKey("_color"))
+                return Color;
+
             Color.Alpha = Convert.ToInt32(colorNode.dictEntriesOfInterest["_color"]["aPercent"]);
             Color.Red = Convert.ToInt32(colorNode.dictEntriesOfInterest["_color"]["rPercent"]);
             Color.Green = Convert.ToInt32(colorNode.dictEntriesOfInterest["_color"]["gPercent"]);

@@ -59,5 +59,29 @@ namespace WebAPI.Controllers
             var overViewInfo = _hudInterfaceService.GetCenterPos();
             return Ok(overViewInfo);
         }
+
+        [HttpPost("ShipStop", Name = "ShipStop")]
+        public IActionResult ShipStop()
+        {
+            _hudInterfaceService.ShipStop();
+
+            return Ok(new { message = "ship stopped" });
+        }
+
+        [HttpPost("SetFullSpeed", Name = "SetFullSpeed")]
+        public IActionResult SetFullSpeed()
+        {
+            _hudInterfaceService.SetFullSpeed();
+
+            return Ok(new { message = "full speed set" });
+        }
+
+        [HttpPost("ToggleActivationModule", Name = "ToggleActivationModule")]
+        public IActionResult ToggleActivationModule([FromBody] string moduleName)
+        {
+            _hudInterfaceService.ToggleActivationModule(moduleName);
+
+            return Ok(new { message = "activation module toggled" });
+        }
     }
 }

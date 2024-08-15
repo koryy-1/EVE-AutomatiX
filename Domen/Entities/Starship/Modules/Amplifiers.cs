@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domen.Entities.Starship.Modules
 {
-    public class Amplifiers : EVE_AutomatiX.Starship.Modules.ShipModule
+    public class Amplifiers : EVE_AutomatiX.Starship.Modules.StarShipModule
     {
         public Amplifiers(List<Models.ShipModule> modules)
         {

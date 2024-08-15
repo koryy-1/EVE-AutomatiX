@@ -22,11 +22,11 @@ namespace Application.ClientWindow.Parsers
 
             var NotepadWindow = UITreeReader.GetUITrees(_clientParams, "NotepadWindow");
             if (NotepadWindow == null)
-                return null;
+                return new List<NotepadItem>();
 
             var SE_EditTextlineCore = NotepadWindow.FindEntityOfString("SE_EditTextlineCore");
             if (SE_EditTextlineCore == null)
-                return null;
+                return new List<NotepadItem>();
 
             var SE_EditTextlineCoreEntry = SE_EditTextlineCore.handleEntity("SE_EditTextlineCore");
 

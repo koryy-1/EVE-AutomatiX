@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Starship.Modules
 {
-    public class PropModule : ShipModule
+    public class PropModule : StarShipModule
     {
         public PropModule(List<Domen.Models.ShipModule> modules)
         {

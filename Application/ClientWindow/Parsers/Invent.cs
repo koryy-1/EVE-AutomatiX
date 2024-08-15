@@ -21,7 +21,7 @@ namespace Application.ClientWindow.Parsers
         {
             var inventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
             if (inventoryPrimary == null)
-                return null;
+                return new List<InventoryItem>();
 
             WndCoords = GetCoordsEntityOnScreen(inventoryPrimary);
             WndCoords2 = GetCoordsEntityOnScreen2(inventoryPrimary);
@@ -97,14 +97,14 @@ namespace Application.ClientWindow.Parsers
         {
             var inventoryPrimary = UITreeReader.GetUITrees(_clientParams, "InventoryPrimary");
             if (inventoryPrimary == null)
-                return null;
+                return new Point();
 
             WndCoords = GetCoordsEntityOnScreen(inventoryPrimary);
             WndCoords2 = GetCoordsEntityOnScreen2(inventoryPrimary);
 
             var invLootAllBtnNode = FindNodesByInterestName(inventoryPrimary, "invLootAllBtn").FirstOrDefault();
             if (invLootAllBtnNode == null)
-                return null;
+                return new Point();
 
             var point = new Point()
             {

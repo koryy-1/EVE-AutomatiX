@@ -20,17 +20,17 @@ namespace Application.ClientWindow
         public void ClickLB(Point point)
         {
             WinApi.PostMessage(_hWnd, (uint)WinApi.MouseMessages.WM_LBUTTONDOWN, (int)WinApi.VirtualKeyShort.LBUTTON, WinApi.MakeLParam(point.x, point.y));
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             WinApi.PostMessage(_hWnd, (uint)WinApi.MouseMessages.WM_LBUTTONUP, (int)WinApi.VirtualKeyShort.LBUTTON, WinApi.MakeLParam(point.x, point.y));
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
         }
 
         public void ClickRB(Point point)
         {
             WinApi.PostMessage(_hWnd, (uint)WinApi.MouseMessages.WM_RBUTTONDOWN, (int)WinApi.VirtualKeyShort.RBUTTON, WinApi.MakeLParam(point.x, point.y));
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             WinApi.PostMessage(_hWnd, (uint)WinApi.MouseMessages.WM_RBUTTONUP, (int)WinApi.VirtualKeyShort.RBUTTON, WinApi.MakeLParam(point.x, point.y));
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
         }
     }
 }

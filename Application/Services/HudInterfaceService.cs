@@ -49,6 +49,28 @@ namespace Application.Services
             return _client.Parser.HI.GetCenterPos();
         }
 
+        public void ShipStop()
+        {
+            var centerPos = _client.Parser.HI.GetCenterPos();
+            var stopPos = new Point
+            {
+                x = centerPos.x - 47,
+                y = centerPos.y + 33,
+            };
+            _client.Emulators.ClickLB(stopPos);
+        }
+
+        public void SetFullSpeed()
+        {
+            var centerPos = _client.Parser.HI.GetCenterPos();
+            var fullSpeedPos = new Point
+            {
+                x = centerPos.x + 47,
+                y = centerPos.y + 33,
+            };
+            _client.Emulators.ClickLB(fullSpeedPos);
+        }
+
         public void ToggleActivationModule(string moduleName)
         {
             var module = _client.Parser.HI.GetAllModulesInfo()

@@ -20,11 +20,15 @@ namespace Application.ClientWindow.Parsers
             RoutePanel routePanel = new RoutePanel();
             var infoPanelRoute = UITreeReader.GetUITrees(_clientParams, "InfoPanelRoute", 7);
             if (infoPanelRoute == null)
-                return null;
+                return routePanel;
 
-            routePanel.ButtonLoc = GetButtonLoc(infoPanelRoute);
+            routePanel.NextSystemInRoute = GetNextSystemInRoute(infoPanelRoute);
+
+            routePanel.CurrentDestination = GetCurrentDestination(infoPanelRoute);
 
             routePanel.Systems = GetSolarSystems(infoPanelRoute);
+
+            routePanel.ButtonLoc = GetButtonLoc(infoPanelRoute);
 
             return routePanel;
         }
@@ -33,11 +37,11 @@ namespace Application.ClientWindow.Parsers
         {
             var InfoPanelLocationInfo = UITreeReader.GetUITrees(_clientParams, "InfoPanelLocationInfo", 7);
             if (InfoPanelLocationInfo == null)
-                return null;
+                return new LocationInfo();
 
             var nearestLocationEntity = FindNodesByInterestName(InfoPanelLocationInfo, "nearestLocationInfo").FirstOrDefault();
             if (nearestLocationEntity == null)
-                return null;
+                return new LocationInfo();
 
             // _name :  nearestLocationInfo
             // _name : headerLabelSystemName
@@ -45,7 +49,7 @@ namespace Application.ClientWindow.Parsers
             // cur system - perimeter
             // nearest location - niyabainen
 
-            var FullSystemName = nearestLocationEntity.dictEntriesOfInterest["_setText"].ToString()
+            var FullSystemName = nearestLocationEntity.dictEntriesOfInterest["_setText"]?.ToString()
                 .Split('>')[1].Split()[0];
 
             LocationInfo LocationInfo = new LocationInfo()
@@ -54,6 +58,38 @@ namespace Application.ClientWindow.Parsers
             };
 
             return LocationInfo;
+        }
+
+        private string GetNextSystemInRoute(UITreeNode infoPanelRoute)
+        {
+            var nextWaypointPanelNode = FindNodesByObjectName(infoPanelRoute, "NextWaypointPanel").FirstOrDefault();
+
+            if (nextWaypointPanelNode is null)
+                return null;
+
+            var nodeWithNextSystem = FindNodesByObjectName(nextWaypointPanelNode, "EveLabelMedium").FirstOrDefault();
+
+            var nextSystemInRoute = nodeWithNextSystem.dictEntriesOfInterest["_setText"].ToString()
+                .Split("Next System in Route\">")[1]
+                .Split("<")[0];
+
+            return nextSystemInRoute;
+        }
+
+        private string GetCurrentDestination(UITreeNode infoPanelRoute)
+        {
+            var destWaypointPanelNode = FindNodesByObjectName(infoPanelRoute, "DestinationWaypointPanel").FirstOrDefault();
+
+            if (destWaypointPanelNode is null)
+                return null;
+
+            var nodeWithCurrentDest = FindNodesByObjectName(destWaypointPanelNode, "EveLabelMedium").FirstOrDefault();
+
+            var currentDestination = nodeWithCurrentDest.dictEntriesOfInterest["_setText"].ToString()
+                .Split("Current Destination\">")[1]
+                .Split("<")[0];
+
+            return currentDestination;
         }
 
         private List<Color> GetSolarSystems(UITreeNode infoPanelRoute)

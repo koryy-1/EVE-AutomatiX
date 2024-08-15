@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EVE_AutomatiX.Starship.Modules
 {
-    public class ShipModule : Domen.Models.ShipModule
+    public class StarShipModule : ShipModule
     {
-        public List<Domen.Models.ShipModule> Modules;
+        public List<ShipModule> Modules;
 
         public string GetMode()
         {

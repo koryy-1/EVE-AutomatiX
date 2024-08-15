@@ -28,7 +28,7 @@ namespace Application.ClientWindow.Parsers
         {
             var selectedItemWnd = UITreeReader.GetUITrees(_clientParams, "SelectedItemWnd");
             if (selectedItemWnd == null)
-                return null;
+                return new SelectedItemInfo();
 
             WndCoords = GetCoordsEntityOnScreen(selectedItemWnd);
             WndCoords2 = GetCoordsEntityOnScreen2(selectedItemWnd);

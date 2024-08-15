@@ -39,7 +39,7 @@ namespace Application.ClientWindow.Parsers
         {
             var HudContainer = GetHudContainer(_clientParams);
             if (HudContainer == null)
-                return null;
+                return new Point();
 
             var hudContainerCoords = GetCoordsEntityOnScreen(HudContainer
                     .children[Convert.ToInt32(HudContainer.dictEntriesOfInterest["needIndex"])]
@@ -50,7 +50,7 @@ namespace Application.ClientWindow.Parsers
 
             Point Pos = new Point();
 
-            Pos.x = hudContainerCoords.x + centerHudContainerEntityCoords.x + 95;
+            Pos.x = hudContainerCoords.x + centerHudContainerEntityCoords.x + 93;
             Pos.y = hudContainerCoords.y + 100;
 
             return Pos;
@@ -59,11 +59,11 @@ namespace Application.ClientWindow.Parsers
         {
             var hudContainer = GetHudContainer(_clientParams);
             if (hudContainer == null)
-                return null;
+                return new HealthPoints();
 
             var hudReadoutEntry = FindNodesByObjectName(hudContainer, "HudReadout").FirstOrDefault();
             if (hudReadoutEntry == null)
-                return null;
+                return new HealthPoints();
 
             HealthPoints healthPoints = new HealthPoints()
             {
@@ -109,7 +109,7 @@ namespace Application.ClientWindow.Parsers
         {
             UITreeNode HudContainer = GetHudContainer(_clientParams);
             if (HudContainer == null)
-                return null;
+                return new List<ShipModule>();
 
             var SlotsContainer = FindNodesByObjectName(HudContainer, "ShipSlot");
 

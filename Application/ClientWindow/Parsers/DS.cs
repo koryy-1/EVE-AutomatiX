@@ -18,17 +18,17 @@ namespace Application.ClientWindow.Parsers
         {
             var DScanWnd = UITreeReader.GetUITrees(_clientParams, "DirectionalScanner");
             if (DScanWnd == null) // docked
-                return null;
+                return new List<DScanItem>();
 
             DScanWnd = DScanWnd.FindEntityOfStringByDictEntriesOfInterest("_name", "noResultsLabel");
             if (DScanWnd != null) // no Results
-                return null;
+                return new List<DScanItem>();
 
             DScanWnd = UITreeReader.GetUITrees(_clientParams).FindEntityOfString("DirectionalScanResultEntry");
             if (DScanWnd == null) // xyeta
             {
                 Console.WriteLine("dscan not work");
-                return null;
+                return new List<DScanItem>();
             }
             var DScanWndEntries = DScanWnd.handleEntity("DirectionalScanResultEntry");
 
