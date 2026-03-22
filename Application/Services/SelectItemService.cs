@@ -31,7 +31,7 @@ namespace Application.Services
         public bool ClickButton(string btnName)
         {
             var selectedItemInfo = _client.Parser.SI.GetInfo();
-            if (selectedItemInfo == null)
+            if (selectedItemInfo?.Buttons == null)
                 return false;
 
             var button = selectedItemInfo.Buttons.Find(btn => btn.Action == btnName);

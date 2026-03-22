@@ -30,9 +30,10 @@ namespace WebAPI.Controllers
         {
             var success = _selectItemService.ClickButton(btnName);
             if (success)
-                return Ok();
+                return Ok(new { message = "Button found" });
 
-            return BadRequest("Button not found");
+            return Ok(new { message = "Button not found" });
+            //return BadRequest("Button not found");
         }
     }
 }
